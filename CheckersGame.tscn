@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://c5xy0chodeg88"]
 
 [ext_resource type="Texture2D" uid="uid://bcrnaddg7vn16" path="res://checkerboard.png" id="1_eojbx"]
+[ext_resource type="Script" path="res://CheckersGame.gd" id="1_fpw4d"]
 [ext_resource type="PackedScene" uid="uid://cwiypbc6r62w4" path="res://CheckersPiece.tscn" id="2_7loty"]
-[ext_resource type="Texture2D" uid="uid://dulvpgk55dg1u" path="res://RedPiece.tres" id="2_filxh"]
-[ext_resource type="Texture2D" uid="uid://dvk2i5d8p1jbt" path="res://WhitePiece.tres" id="3_taubf"]
+[ext_resource type="PackedScene" uid="uid://bgqrhejquwjsw" path="res://MoveHighlight.tscn" id="4_utwos"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lhcwh"]
 texture = ExtResource("1_eojbx")
@@ -16,6 +16,7 @@ texture = ExtResource("1_eojbx")
 sources/1 = SubResource("TileSetAtlasSource_lhcwh")
 
 [node name="CheckersGame" type="Node2D"]
+script = ExtResource("1_fpw4d")
 
 [node name="Board" type="TileMap" parent="."]
 position = Vector2(0, 64)
@@ -24,123 +25,13 @@ format = 2
 layer_0/tile_data = PackedInt32Array(0, 1, 0, 2, 1, 0, 4, 1, 0, 6, 1, 0, 131072, 1, 0, 262144, 1, 0, 393216, 1, 0, 393218, 1, 0, 393220, 1, 0, 393222, 1, 0, 262150, 1, 0, 131078, 1, 0, 131076, 1, 0, 131074, 1, 0, 262146, 1, 0, 262148, 1, 0, 65537, 1, 0, 196611, 1, 0, 327685, 1, 0, 458759, 1, 0, 327687, 1, 0, 196615, 1, 0, 65543, 1, 0, 65541, 1, 0, 65539, 1, 0, 196609, 1, 0, 327683, 1, 0, 458757, 1, 0, 458755, 1, 0, 327681, 1, 0, 458753, 1, 0, 458752, 65537, 0, 458754, 65537, 0, 458756, 65537, 0, 458758, 65537, 0, 393223, 65537, 0, 393221, 65537, 0, 393219, 65537, 0, 393217, 65537, 0, 327680, 65537, 0, 327682, 65537, 0, 327684, 65537, 0, 327686, 65537, 0, 262151, 65537, 0, 262149, 65537, 0, 262147, 65537, 0, 262145, 65537, 0, 196608, 65537, 0, 196610, 65537, 0, 196612, 65537, 0, 196614, 65537, 0, 131079, 65537, 0, 131077, 65537, 0, 131075, 65537, 0, 131073, 65537, 0, 65536, 65537, 0, 65538, 65537, 0, 65540, 65537, 0, 65542, 65537, 0, 7, 65537, 0, 5, 65537, 0, 3, 65537, 0, 1, 65537, 0, 196613, 1, 0)
 
 [node name="Pieces" type="Node2D" parent="Board"]
-position = Vector2(0, -64)
 z_index = 1
 
 [node name="CheckersPiece" parent="Board/Pieces" instance=ExtResource("2_7loty")]
-position = Vector2(24, 72)
+position = Vector2(24, 8)
 
-[node name="Sprite2d8" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(8, 88)
-texture = ExtResource("2_filxh")
+[node name="MoveHighlight" parent="Board/Pieces" instance=ExtResource("4_utwos")]
+position = Vector2(8, 8)
 
-[node name="Sprite2d9" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(40, 88)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d10" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(24, 104)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d11" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(56, 104)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d12" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(56, 72)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d19" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(88, 72)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d20" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(72, 88)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d21" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(104, 88)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d22" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(88, 104)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d23" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(120, 104)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d24" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(120, 72)
-texture = ExtResource("2_filxh")
-
-[node name="Sprite2d2" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(8, 184)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d3" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(40, 184)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d4" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(24, 168)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d5" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(8, 152)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d6" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(40, 152)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d7" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(56, 168)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d13" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(72, 184)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d14" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(104, 184)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d15" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(88, 168)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d16" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(72, 152)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d17" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(104, 152)
-texture = ExtResource("3_taubf")
-
-[node name="Sprite2d18" type="Sprite2D" parent="Board/Pieces"]
-texture_filter = 1
-position = Vector2(120, 168)
-texture = ExtResource("3_taubf")
+[connection signal="pickup_piece" from="Board/Pieces/CheckersPiece" to="." method="_on_checkers_piece_pickup_piece"]
+[connection signal="move_here" from="Board/Pieces/MoveHighlight" to="." method="_on_move_highlight_move_here"]

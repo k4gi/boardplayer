@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgqrhejquwjsw"]
+
+[ext_resource type="Texture2D" uid="uid://cy3svanwhr6vr" path="res://MoveHighlight.tres" id="1_u8tna"]
+[ext_resource type="Script" path="res://MoveHighlight.gd" id="1_wfp3p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wom1g"]
+size = Vector2(16, 16)
+
+[node name="MoveHighlight" type="Area2D"]
+script = ExtResource("1_wfp3p")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.666667)
+texture = ExtResource("1_u8tna")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wom1g")
+
+[connection signal="input_event" from="." to="." method="_on_move_highlight_input_event"]
