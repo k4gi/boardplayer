@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwiypbc6r62w4"]
+
+[ext_resource type="Texture2D" uid="uid://dvk2i5d8p1jbt" path="res://WhitePiece.tres" id="1_hoyfn"]
+[ext_resource type="Script" path="res://CheckersPiece.gd" id="1_uhg58"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yb10e"]
+radius = 7.0
+
+[node name="CheckersPiece" type="Area2D"]
+texture_filter = 1
+script = ExtResource("1_uhg58")
+
+[node name="Sprite2d" type="Sprite2D" parent="."]
+texture = ExtResource("1_hoyfn")
+
+[node name="CollisionShape2d" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yb10e")
+
+[connection signal="input_event" from="." to="." method="_on_checkers_piece_input_event"]
