@@ -27,11 +27,17 @@ layer_0/tile_data = PackedInt32Array(0, 1, 0, 2, 1, 0, 4, 1, 0, 6, 1, 0, 131072,
 [node name="Pieces" type="Node2D" parent="Board"]
 z_index = 1
 
-[node name="CheckersPiece" parent="Board/Pieces" instance=ExtResource("2_7loty")]
+[node name="WhitePieces" type="Node2D" parent="Board/Pieces"]
+
+[node name="CheckersPiece" parent="Board/Pieces/WhitePieces" instance=ExtResource("2_7loty")]
 position = Vector2(24, 8)
 
-[node name="MoveHighlight" parent="Board/Pieces" instance=ExtResource("4_utwos")]
+[node name="BlackPieces" type="Node2D" parent="Board/Pieces"]
+
+[node name="Highlights" type="Node2D" parent="Board/Pieces"]
+
+[node name="MoveHighlight" parent="Board/Pieces/Highlights" instance=ExtResource("4_utwos")]
 position = Vector2(8, 8)
 
-[connection signal="pickup_piece" from="Board/Pieces/CheckersPiece" to="." method="_on_checkers_piece_pickup_piece"]
-[connection signal="move_here" from="Board/Pieces/MoveHighlight" to="." method="_on_move_highlight_move_here"]
+[connection signal="pickup_piece" from="Board/Pieces/WhitePieces/CheckersPiece" to="." method="_on_checkers_piece_pickup_piece"]
+[connection signal="move_here" from="Board/Pieces/Highlights/MoveHighlight" to="." method="_on_move_highlight_move_here"]
