@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5xy0chodeg88"]
+[gd_scene load_steps=5 format=3 uid="uid://c5xy0chodeg88"]
 
 [ext_resource type="Texture2D" uid="uid://bcrnaddg7vn16" path="res://checkerboard.png" id="1_eojbx"]
 [ext_resource type="Script" path="res://CheckersGame.gd" id="1_fpw4d"]
-[ext_resource type="PackedScene" uid="uid://cwiypbc6r62w4" path="res://CheckersPiece.tscn" id="2_7loty"]
-[ext_resource type="PackedScene" uid="uid://bgqrhejquwjsw" path="res://MoveHighlight.tscn" id="4_utwos"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lhcwh"]
 texture = ExtResource("1_eojbx")
@@ -29,15 +27,6 @@ z_index = 1
 
 [node name="WhitePieces" type="Node2D" parent="Board/Pieces"]
 
-[node name="CheckersPiece" parent="Board/Pieces/WhitePieces" instance=ExtResource("2_7loty")]
-position = Vector2(24, 8)
-
 [node name="BlackPieces" type="Node2D" parent="Board/Pieces"]
 
 [node name="Highlights" type="Node2D" parent="Board/Pieces"]
-
-[node name="MoveHighlight" parent="Board/Pieces/Highlights" instance=ExtResource("4_utwos")]
-position = Vector2(8, 8)
-
-[connection signal="pickup_piece" from="Board/Pieces/WhitePieces/CheckersPiece" to="." method="_on_checkers_piece_pickup_piece"]
-[connection signal="move_here" from="Board/Pieces/Highlights/MoveHighlight" to="." method="_on_move_highlight_move_here"]

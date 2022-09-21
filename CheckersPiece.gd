@@ -6,7 +6,7 @@ signal pickup_piece(piece)
 
 var grab_position = Vector2i.ZERO
 
-var can_move = ["down"] # "up", "down"
+var can_move = [] # "up", "down"
 
 
 func _on_checkers_piece_input_event(viewport, event, shape_idx):
@@ -14,3 +14,6 @@ func _on_checkers_piece_input_event(viewport, event, shape_idx):
 		if not event.is_pressed(): #on button release
 			emit_signal("pickup_piece", self)
 
+
+func set_texture(texture):
+	$Sprite2d.set_texture(texture)
