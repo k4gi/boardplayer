@@ -44,6 +44,8 @@ func spawn_piece(x,y,facing,colour):
 		"black":
 			new_piece.set_texture( BLACK_PIECE )
 			$Board/Pieces/BlackPieces.add_child(new_piece)
+		_:
+			print("spawn_piece failed!")
 
 
 func _process(_delta):
@@ -65,7 +67,13 @@ func _on_checkers_piece_pickup_piece(piece):
 
 
 func place_highlights():
-	pass
+	var starting_spot = $Board.local_to_map(carried_piece.get_position())
+	if carried_piece.get("can_move").has("up"):
+		var target_row = starting_spot.y-1
+		while target_row >= 0:
+			target_row -= 1
+	if carried_piece.get("can_move").has("down"):
+		pass
 
 
 func spawn_highlight(pos: Vector2, type="move"):

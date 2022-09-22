@@ -5,6 +5,7 @@ signal move_here(highlight)
 
 
 var is_action = true
+var is_jump = false
 
 
 func _on_move_highlight_input_event(viewport, event, shape_idx):
