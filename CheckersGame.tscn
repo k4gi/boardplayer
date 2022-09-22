@@ -25,8 +25,4 @@ layer_0/tile_data = PackedInt32Array(0, 1, 0, 2, 1, 0, 4, 1, 0, 6, 1, 0, 131072,
 [node name="Pieces" type="Node2D" parent="Board"]
 z_index = 1
 
-[node name="WhitePieces" type="Node2D" parent="Board/Pieces"]
-
-[node name="BlackPieces" type="Node2D" parent="Board/Pieces"]
-
-[node name="Highlights" type="Node2D" parent="Board/Pieces"]
+[node name="Highlights" type="Node2D" parent="Board"]

@@ -37,15 +37,17 @@ func spawn_piece(x,y,facing,colour):
 	
 	new_piece.set_position( $Board.map_to_local( Vector2i(x, y) ) )
 	new_piece.get("can_move").append( facing )
+	new_piece.set("allegiance", colour)
 	match(colour):
 		"white":
 			new_piece.set_texture( WHITE_PIECE )
-			$Board/Pieces/WhitePieces.add_child(new_piece)
+			$Board/Pieces.add_child(new_piece)
 		"black":
 			new_piece.set_texture( BLACK_PIECE )
-			$Board/Pieces/BlackPieces.add_child(new_piece)
+			$Board/Pieces.add_child(new_piece)
 		_:
 			print("spawn_piece failed!")
+			new_piece.queue_free()
 
 
 func _process(_delta):
@@ -68,22 +70,39 @@ func _on_checkers_piece_pickup_piece(piece):
 
 func place_highlights():
 	var starting_spot = $Board.local_to_map(carried_piece.get_position())
-	if carried_piece.get("can_move").has("up"):
-		var target_row = starting_spot.y-1
-		while target_row >= 0:
-			target_row -= 1
-	if carried_piece.get("can_move").has("down"):
-		pass
+	
+	var target_rows = []
+	if carried_piece.get("can_move").has("up") and starting_spot.y-1 >= 0:
+		target_rows.append( starting_spot.y-1 )
+	if carried_piece.get("can_move").has("down") and starting_spot.y+1 < 8:
+		target_rows.append( starting_spot.y+1 )
+	
+	for each_row in target_rows:
+		if starting_spot.x-1 >= 0: #left
+			var occupying_piece = null
+			for each_child in $Board/Pieces.get_children():
+				if each_child.get_position() == $Board.map_to_local( Vector2i(starting_spot.x-1, each_row) ):
+					occupying_piece = each_child
+					break
+			if occupying_piece != null and occupying_piece.get("allegiance") != carried_piece.get("allegiance"):
+				var second_occupying_piece = null
+				for each_child in $Board/Pieces.get_children():
+					# ahhh this is so convoluted
+					# just give me recursion
+					pass
+		
+		if starting_spot.x+1 < 8: #right
+			pass
 
 
-func spawn_highlight(pos: Vector2, type="move"):
+func spawn_highlight(pos: Vector2i, type="move"):
 	var new_highlight = MOVE_HIGHLIGHT.instantiate()
 	new_highlight.move_here.connect(_on_move_highlight_move_here)
 	if type == "return":
 		new_highlight.set_texture( HIGHLIGHT_RETURN )
 		new_highlight.set("is_action", false)
 	new_highlight.set_position(pos)
-	$Board/Pieces/Highlights.add_child(new_highlight)
+	$Board/Highlights.add_child(new_highlight)
 
 
 func _on_move_highlight_move_here(highlight):
@@ -96,12 +115,12 @@ func _on_move_highlight_move_here(highlight):
 	
 	set_all_pieces_pickable(true)
 	
-	for each_child in $Board/Pieces/Highlights.get_children():
+	for each_child in $Board/Highlights.get_children():
 		each_child.queue_free()
 
 
 func set_all_pieces_pickable(boolean):
-	for each_piece in $Board/Pieces/BlackPieces.get_children():
+	for each_piece in $Board/Pieces.get_children():
 		each_piece.set_pickable(boolean)
-	for each_piece in $Board/Pieces/WhitePieces.get_children():
+	for each_piece in $Board/Pieces.get_children():
 		each_piece.set_pickable(boolean)

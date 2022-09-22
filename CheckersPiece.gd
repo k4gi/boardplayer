@@ -8,6 +8,8 @@ var grab_position = Vector2i.ZERO
 
 var can_move = [] # "up", "down"
 
+var allegiance # "white" or "black"
+
 
 func _on_checkers_piece_input_event(viewport, event, shape_idx):
 	if event.has_method( "get_button_index" ): #is an InputEventMouseButton?
