@@ -17,7 +17,23 @@ const TILE_RED = Vector2i(1,0)
 var carried_piece = null
 
 
+#what if the checkers pieces were stored in a 2d array. wouldn't that be better
+var piece_array = []
+
+#how to win!
+var score = {
+	"white": 12,
+	"black": 12,
+}
+
+
 func _ready():
+	#build piece_array
+	for x in range(8):
+		piece_array.append( [] )
+		for y in range(8):
+			piece_array[x].append( null )
+	
 	#spawn in pieces
 	var board_coords = $Board.get_used_cells(0)
 	for first_three in range(0,3):
@@ -41,9 +57,11 @@ func spawn_piece(x,y,facing,colour):
 	match(colour):
 		"white":
 			new_piece.set_texture( WHITE_PIECE )
+			piece_array[x][y] = new_piece
 			$Board/Pieces.add_child(new_piece)
 		"black":
 			new_piece.set_texture( BLACK_PIECE )
+			piece_array[x][y] = new_piece
 			$Board/Pieces.add_child(new_piece)
 		_:
 			print("spawn_piece failed!")
@@ -63,7 +81,7 @@ func _on_checkers_piece_pickup_piece(piece):
 	
 	set_all_pieces_pickable(false)
 	
-	spawn_highlight(piece.get_position(), "return")
+	spawn_highlight(piece.get_position(), null, "return")
 	
 	place_highlights()
 
@@ -73,41 +91,66 @@ func place_highlights():
 	
 	var target_rows = []
 	if carried_piece.get("can_move").has("up") and starting_spot.y-1 >= 0:
-		target_rows.append( starting_spot.y-1 )
+		target_rows.append( -1 )
 	if carried_piece.get("can_move").has("down") and starting_spot.y+1 < 8:
-		target_rows.append( starting_spot.y+1 )
+		target_rows.append( 1 )
 	
-	for each_row in target_rows:
-		if starting_spot.x-1 >= 0: #left
-			var occupying_piece = null
-			for each_child in $Board/Pieces.get_children():
-				if each_child.get_position() == $Board.map_to_local( Vector2i(starting_spot.x-1, each_row) ):
-					occupying_piece = each_child
-					break
-			if occupying_piece != null and occupying_piece.get("allegiance") != carried_piece.get("allegiance"):
-				var second_occupying_piece = null
-				for each_child in $Board/Pieces.get_children():
-					# ahhh this is so convoluted
-					# just give me recursion
-					pass
+	for y_diff in target_rows:
+		for x_diff in [-1, 1]:
+			var target_spot = Vector2i(starting_spot.x+x_diff, starting_spot.y+y_diff)
+			
+			if target_spot.x >= 0 and target_spot.x < 8:
+				var occupying_piece = piece_array[target_spot.x][target_spot.y]
+				
+				if occupying_piece == null:
+					spawn_highlight( $Board.map_to_local(target_spot), null )
+				
+				elif occupying_piece != null and occupying_piece.get("allegiance") != carried_piece.get("allegiance"):
+					#space to jump?
+					var second_target_spot = Vector2i(starting_spot.x+(x_diff*2), starting_spot.y+(y_diff*2))
+					if second_target_spot.x >= 0 and second_target_spot.x < 8 and second_target_spot.y >= 0 and second_target_spot.y < 8:
+						occupying_piece = piece_array[target_spot.x][target_spot.y]
+						
+						if occupying_piece == null:
+							spawn_highlight( $Board.map_to_local(second_target_spot), target_spot )
 		
-		if starting_spot.x+1 < 8: #right
-			pass
 
 
-func spawn_highlight(pos: Vector2i, type="move"):
+func spawn_highlight(pos: Vector2i, taking_piece, type="move"):
 	var new_highlight = MOVE_HIGHLIGHT.instantiate()
 	new_highlight.move_here.connect(_on_move_highlight_move_here)
 	if type == "return":
 		new_highlight.set_texture( HIGHLIGHT_RETURN )
 		new_highlight.set("is_action", false)
 	new_highlight.set_position(pos)
+	new_highlight.set("is_taking_piece", taking_piece)
 	$Board/Highlights.add_child(new_highlight)
 
 
 func _on_move_highlight_move_here(highlight):
 	if highlight.get("is_action"):
-		pass #not putting the piece back where it was
+		var tp = highlight.get("is_taking_piece")
+		if tp != null:
+			score[ piece_array[tp.x][tp.y].get("allegiance") ] -= 1
+			piece_array[tp.x][tp.y].queue_free()
+			piece_array[tp.x][tp.y] = null
+		else:
+			pass #end turn
+		#something else needs to happen here
+		#i forget. i'm sleepy
+		#oh yeah. update the array locations
+		var x = 0
+		while x < 8:
+			var y = 0
+			while y < 8:
+				if piece_array[x][y] == carried_piece:
+					piece_array[x][y] = null
+					x = 10
+					y = 10
+				y += 1
+			x += 1
+		var new_pos = $Board.local_to_map( highlight.get_position() )
+		piece_array[new_pos.x][new_pos.y] = carried_piece
 	
 	carried_piece.set_position( highlight.get_position() )
 	carried_piece.set_z_index(0)
@@ -120,7 +163,5 @@ func _on_move_highlight_move_here(highlight):
 
 
 func set_all_pieces_pickable(boolean):
-	for each_piece in $Board/Pieces.get_children():
-		each_piece.set_pickable(boolean)
 	for each_piece in $Board/Pieces.get_children():
 		each_piece.set_pickable(boolean)

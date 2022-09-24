@@ -5,7 +5,8 @@ signal move_here(highlight)
 
 
 var is_action = true
-var is_jump = false
+
+var is_taking_piece = null #Vector2i grid position
 
 
 func _on_move_highlight_input_event(viewport, event, shape_idx):
