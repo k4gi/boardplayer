@@ -109,9 +109,9 @@ func place_highlights():
 					#space to jump?
 					var second_target_spot = Vector2i(starting_spot.x+(x_diff*2), starting_spot.y+(y_diff*2))
 					if second_target_spot.x >= 0 and second_target_spot.x < 8 and second_target_spot.y >= 0 and second_target_spot.y < 8:
-						occupying_piece = piece_array[target_spot.x][target_spot.y]
+						var second_occupying_piece = piece_array[second_target_spot.x][second_target_spot.y]
 						
-						if occupying_piece == null:
+						if second_occupying_piece == null:
 							spawn_highlight( $Board.map_to_local(second_target_spot), target_spot )
 		
 
