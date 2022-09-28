@@ -8,6 +8,7 @@ radius = 7.0
 
 [node name="CheckersPiece" type="Area2D"]
 texture_filter = 1
+input_pickable = false
 script = ExtResource("1_uhg58")
 
 [node name="Sprite2d" type="Sprite2D" parent="."]

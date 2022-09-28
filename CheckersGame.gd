@@ -26,7 +26,7 @@ var score = {
 	"black": 12,
 }
 
-var whites_turn = true
+var turn = "white"
 
 
 func _ready():
@@ -46,6 +46,8 @@ func _ready():
 		for x in range(8):
 			if $Board.get_cell_atlas_coords(0, Vector2i(x,last_three)) == TILE_RED:
 				spawn_piece(x, last_three, "up", "black")
+	
+	set_all_pieces_pickable(true, turn)
 
 
 func spawn_piece(x,y,facing,colour):
@@ -85,11 +87,11 @@ func _on_checkers_piece_pickup_piece(piece):
 	
 	spawn_highlight(piece.get_position(), null, "return")
 	
-	place_highlights()
+	place_move_highlights(carried_piece.get_position())
 
 
-func place_highlights():
-	var starting_spot = $Board.local_to_map(carried_piece.get_position())
+func place_move_highlights(starting_pos, jumps_only = false):
+	var starting_spot = $Board.local_to_map( starting_pos )
 	
 	var target_rows = []
 	if carried_piece.get("can_move").has("up") and starting_spot.y-1 >= 0:
@@ -104,7 +106,7 @@ func place_highlights():
 			if target_spot.x >= 0 and target_spot.x < 8:
 				var occupying_piece = piece_array[target_spot.x][target_spot.y]
 				
-				if occupying_piece == null:
+				if occupying_piece == null and not jumps_only:
 					spawn_highlight( $Board.map_to_local(target_spot), null )
 				
 				elif occupying_piece != null and occupying_piece.get("allegiance") != carried_piece.get("allegiance"):
@@ -130,14 +132,31 @@ func spawn_highlight(pos: Vector2i, taking_piece, type="move"):
 
 
 func _on_move_highlight_move_here(highlight):
-	if highlight.get("is_action"):
+	if highlight.get("is_action"): #made a move
 		var tp = highlight.get("is_taking_piece")
-		if tp != null:
+		if tp != null: #we are taking a piece
 			score[ piece_array[tp.x][tp.y].get("allegiance") ] -= 1
 			piece_array[tp.x][tp.y].queue_free()
 			piece_array[tp.x][tp.y] = null
-		else:
-			pass #end turn
+			
+			var highlight_pos = highlight.get_position()
+			
+			for each_child in $Board/Highlights.get_children():
+				each_child.queue_free()
+			
+			place_move_highlights( highlight_pos, true )
+			
+			if $Board/Highlights.get_child_count() == 0:
+				#end turn, put piece back down
+				pass
+			else:
+				#if jumping is not mandatory
+				spawn_highlight( highlight_pos, null, "return")
+				
+			
+		else: #we are not taking a piece
+			toggle_turn()
+		
 		var x = 0
 		while x < 8:
 			var y = 0
@@ -151,18 +170,27 @@ func _on_move_highlight_move_here(highlight):
 		var new_pos = $Board.local_to_map( highlight.get_position() )
 		piece_array[new_pos.x][new_pos.y] = carried_piece
 	
-	carried_piece.set_position( highlight.get_position() )
-	carried_piece.set_z_index(0)
-	carried_piece = null
+	else: #not an action; putting piece back down
+		carried_piece.set_position( highlight.get_position() )
+		carried_piece.set_z_index(0)
+		carried_piece = null
+		for each_child in $Board/Highlights.get_children():
+			each_child.queue_free()
 	
-	set_all_pieces_pickable(true)
-	
-	for each_child in $Board/Highlights.get_children():
-		each_child.queue_free()
+	set_all_pieces_pickable(true, turn)
 
 
-func set_all_pieces_pickable(boolean):
-	for each_piece in $Board/WhitePieces.get_children():
-		each_piece.set_pickable(boolean)
-	for each_piece in $Board/BlackPieces.get_children():
-		each_piece.set_pickable(boolean)
+func set_all_pieces_pickable(boolean, target_colour="both"):
+	if target_colour != "black":
+		for each_piece in $Board/WhitePieces.get_children():
+			each_piece.set_pickable(boolean)
+	if target_colour != "white":
+		for each_piece in $Board/BlackPieces.get_children():
+			each_piece.set_pickable(boolean)
+
+
+func toggle_turn():
+	if turn == "white":
+		turn = "black"
+	else:
+		turn = "white"
