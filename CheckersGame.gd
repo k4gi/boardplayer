@@ -26,6 +26,8 @@ var score = {
 	"black": 12,
 }
 
+var whites_turn = true
+
 
 func _ready():
 	#build piece_array
@@ -58,11 +60,11 @@ func spawn_piece(x,y,facing,colour):
 		"white":
 			new_piece.set_texture( WHITE_PIECE )
 			piece_array[x][y] = new_piece
-			$Board/Pieces.add_child(new_piece)
+			$Board/WhitePieces.add_child(new_piece)
 		"black":
 			new_piece.set_texture( BLACK_PIECE )
 			piece_array[x][y] = new_piece
-			$Board/Pieces.add_child(new_piece)
+			$Board/BlackPieces.add_child(new_piece)
 		_:
 			print("spawn_piece failed!")
 			new_piece.queue_free()
@@ -136,9 +138,6 @@ func _on_move_highlight_move_here(highlight):
 			piece_array[tp.x][tp.y] = null
 		else:
 			pass #end turn
-		#something else needs to happen here
-		#i forget. i'm sleepy
-		#oh yeah. update the array locations
 		var x = 0
 		while x < 8:
 			var y = 0
@@ -163,5 +162,7 @@ func _on_move_highlight_move_here(highlight):
 
 
 func set_all_pieces_pickable(boolean):
-	for each_piece in $Board/Pieces.get_children():
+	for each_piece in $Board/WhitePieces.get_children():
+		each_piece.set_pickable(boolean)
+	for each_piece in $Board/BlackPieces.get_children():
 		each_piece.set_pickable(boolean)
