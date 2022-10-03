@@ -116,7 +116,7 @@ func place_move_highlights(starting_pos, jumps_only = false):
 						var second_occupying_piece = piece_array[second_target_spot.x][second_target_spot.y]
 						
 						if second_occupying_piece == null:
-							spawn_highlight( $Board.map_to_local(second_target_spot), target_spot )
+							spawn_highlight( $Board.map_to_local(second_target_spot), occupying_piece )
 		
 
 
@@ -132,51 +132,74 @@ func spawn_highlight(pos: Vector2i, taking_piece, type="move"):
 
 
 func _on_move_highlight_move_here(highlight):
-	if highlight.get("is_action"): #made a move
-		var tp = highlight.get("is_taking_piece")
-		if tp != null: #we are taking a piece
-			score[ piece_array[tp.x][tp.y].get("allegiance") ] -= 1
-			piece_array[tp.x][tp.y].queue_free()
-			piece_array[tp.x][tp.y] = null
-			
-			var highlight_pos = highlight.get_position()
-			
-			for each_child in $Board/Highlights.get_children():
-				each_child.queue_free()
-			
-			place_move_highlights( highlight_pos, true )
-			
-			if $Board/Highlights.get_child_count() == 0:
-				#end turn, put piece back down
-				pass
-			else:
-				#if jumping is not mandatory
-				spawn_highlight( highlight_pos, null, "return")
-				
-			
-		else: #we are not taking a piece
-			toggle_turn()
-		
-		var x = 0
-		while x < 8:
-			var y = 0
-			while y < 8:
-				if piece_array[x][y] == carried_piece:
-					piece_array[x][y] = null
-					x = 10
-					y = 10
-				y += 1
-			x += 1
-		var new_pos = $Board.local_to_map( highlight.get_position() )
-		piece_array[new_pos.x][new_pos.y] = carried_piece
+	#what are the things that should happen when you click on a move highlight?
+	#first of all if it's a return highlight just put the piece back down. that seems to be working.
+	#otherwise we can either be taking a piece or not. if not, also put the piece back down, but toggle the turn as well.
+	#if we're taking a piece, that's where the more complicated things happen.
+	#it's possible after taking a piece to be able to take more pieces. if that's the case, DON'T put the piece down.
+	#and also create a new set of highlights
+	#hmmmm
 	
-	else: #not an action; putting piece back down
-		carried_piece.set_position( highlight.get_position() )
-		carried_piece.set_z_index(0)
-		carried_piece = null
+	var is_action = highlight.get("is_action")
+	var taking_piece = highlight.get("is_taking_piece")
+	
+	if not is_action: #not making a move
+		put_piece_back_down( highlight.get_position() )
+		set_all_pieces_pickable(true, turn)
+	elif taking_piece == null: #making a move but not taking a piecee
+		toggle_turn()
+		move_piece_in_array( highlight.get_position() )
+		put_piece_back_down( highlight.get_position() )
+		set_all_pieces_pickable(true, turn)
+	else: #taking a piece!!!
+		# update score and remove taken piece
+		score[ taking_piece.get("allegiance") ] -= 1
+		delete_piece( taking_piece )
+		#test whether we can take more pieces
+		var highlight_pos = highlight.get_position()
+		move_piece_in_array( highlight_pos )
 		for each_child in $Board/Highlights.get_children():
+			$Board/Highlights.remove_child( each_child )
 			each_child.queue_free()
-	
+		
+		place_move_highlights( highlight_pos, true )
+		
+		if $Board/Highlights.get_child_count() == 0:
+			toggle_turn()
+			put_piece_back_down( highlight_pos )
+			set_all_pieces_pickable(true, turn)
+		else:
+			#if jumping is not mandatory
+			spawn_highlight( highlight_pos, null)
+
+
+func delete_piece( piece ):
+	var piece_grid_pos = $Board.local_to_map( piece.get_position() )
+	piece_array[piece_grid_pos.x][piece_grid_pos.y] = null
+	piece.queue_free()
+
+
+func move_piece_in_array( highlight_pos ):
+	var x = 0
+	while x < 8:
+		var y = 0
+		while y < 8:
+			if piece_array[x][y] == carried_piece:
+				piece_array[x][y] = null
+				x = 10
+				y = 10
+			y += 1
+		x += 1
+	var new_pos = $Board.local_to_map( highlight_pos )
+	piece_array[new_pos.x][new_pos.y] = carried_piece
+
+
+func put_piece_back_down( highlight_pos ):
+	carried_piece.set_position( highlight_pos )
+	carried_piece.set_z_index(0)
+	carried_piece = null
+	for each_highlight in $Board/Highlights.get_children():
+		each_highlight.queue_free()
 	set_all_pieces_pickable(true, turn)
 
 
