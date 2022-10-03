@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://d2vr315te7cd8"]
+
+[ext_resource type="FontFile" uid="uid://bqdqn3xfualnl" path="res://Yulong_Font_1_0/OpenType (.otf)/Yulong-Regular.otf" id="1_t32ao"]
+
+[resource]
+default_font = ExtResource("1_t32ao")
+default_font_size = 28

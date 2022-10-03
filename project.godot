@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="boardplayer"
-run/main_scene="res://CheckersGame.tscn"
+run/main_scene="res://CheckersMain.tscn"
 config/features=PackedStringArray("4.0", "Vulkan Mobile")
 config/icon="res://icon.svg"
 

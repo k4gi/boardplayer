@@ -1,6 +1,10 @@
 extends Node2D
 
 
+signal turn_toggled( turn )
+signal game_won( score )
+
+
 const WHITE_PIECE = preload("res://WhitePiece.tres")
 const BLACK_PIECE = preload("res://BlackPiece.tres")
 const WHITE_KING = preload("res://WhiteKing.tres")
@@ -49,6 +53,7 @@ func _ready():
 			if $Board.get_cell_atlas_coords(0, Vector2i(x,last_three)) == TILE_RED:
 				spawn_piece(x, last_three, "up", "black")
 	
+	emit_signal("turn_toggled", turn)
 	set_all_pieces_pickable(true, turn)
 
 
@@ -134,14 +139,6 @@ func spawn_highlight(pos: Vector2i, taking_piece, type="move"):
 
 
 func _on_move_highlight_move_here(highlight):
-	#what are the things that should happen when you click on a move highlight?
-	#first of all if it's a return highlight just put the piece back down. that seems to be working.
-	#otherwise we can either be taking a piece or not. if not, also put the piece back down, but toggle the turn as well.
-	#if we're taking a piece, that's where the more complicated things happen.
-	#it's possible after taking a piece to be able to take more pieces. if that's the case, DON'T put the piece down.
-	#and also create a new set of highlights
-	#hmmmm
-	
 	var is_action = highlight.get("is_action")
 	var taking_piece = highlight.get("is_taking_piece")
 	
@@ -154,12 +151,15 @@ func _on_move_highlight_move_here(highlight):
 		put_piece_back_down( highlight.get_position() )
 		set_all_pieces_pickable(true, turn)
 	else: #taking a piece!!!
-		# update score and remove taken piece
-		score[ taking_piece.get("allegiance") ] -= 1
 		delete_piece( taking_piece )
-		#test whether we can take more pieces
 		var highlight_pos = highlight.get_position()
 		move_piece_in_array( highlight_pos )
+		# update score and remove taken piece
+		if subtract_score( taking_piece.get("allegiance") ):
+			put_piece_back_down( highlight_pos )
+			set_all_pieces_pickable(false)
+			return
+		#test whether we can take more pieces
 		for each_child in $Board/Highlights.get_children():
 			$Board/Highlights.remove_child( each_child )
 			each_child.queue_free()
@@ -173,6 +173,12 @@ func _on_move_highlight_move_here(highlight):
 		else:
 			#if jumping is not mandatory
 			spawn_highlight( highlight_pos, null)
+
+
+func subtract_score( allegiance ):
+	score[allegiance] -= 1
+	if score[allegiance] == 0:
+		emit_signal("game_won", turn, score)
 
 
 func delete_piece( piece ):
@@ -232,3 +238,4 @@ func toggle_turn():
 		turn = "black"
 	else:
 		turn = "white"
+	emit_signal("turn_toggled", turn)
