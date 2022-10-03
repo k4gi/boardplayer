@@ -3,6 +3,8 @@ extends Node2D
 
 const WHITE_PIECE = preload("res://WhitePiece.tres")
 const BLACK_PIECE = preload("res://BlackPiece.tres")
+const WHITE_KING = preload("res://WhiteKing.tres")
+const BLACK_KING = preload("res://BlackKing.tres")
 const HIGHLIGHT_SQUARE = preload("res://MoveHighlight.tres")
 const HIGHLIGHT_RETURN = preload("res://ReturnHighlight.tres")
 
@@ -192,6 +194,19 @@ func move_piece_in_array( highlight_pos ):
 		x += 1
 	var new_pos = $Board.local_to_map( highlight_pos )
 	piece_array[new_pos.x][new_pos.y] = carried_piece
+	#check for becoming king while we're here
+	check_becoming_king( new_pos )
+
+
+func check_becoming_king( map_pos ):
+	if carried_piece.get("can_move").size() == 2:
+		return #already king!
+	elif map_pos.y == 0 or map_pos.y == 7:
+		carried_piece.set("can_move", ["up", "down"])
+		if carried_piece.get_texture() == WHITE_PIECE:
+			carried_piece.set_texture( WHITE_KING )
+		else:
+			carried_piece.set_texture( BLACK_KING )
 
 
 func put_piece_back_down( highlight_pos ):

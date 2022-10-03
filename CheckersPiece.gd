@@ -19,3 +19,7 @@ func _on_checkers_piece_input_event(viewport, event, shape_idx):
 
 func set_texture(texture):
 	$Sprite2d.set_texture(texture)
+
+
+func get_texture():
+	return $Sprite2d.get_texture()
