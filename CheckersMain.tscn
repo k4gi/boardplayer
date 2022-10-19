@@ -10,83 +10,108 @@ script = ExtResource("1_farx3")
 [node name="CheckersGame" parent="." instance=ExtResource("1_h76m0")]
 position = Vector2(128, 0)
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="VBoxUI" type="VBoxContainer" parent="."]
 offset_right = 127.0
 offset_bottom = 128.0
 theme = ExtResource("3_183qv")
 
-[node name="TurnDisplay" type="HBoxContainer" parent="VBox"]
+[node name="VBoxMainMenu" type="VBoxContainer" parent="VBoxUI"]
+layout_mode = 2
+offset_right = 178.0
+offset_bottom = 114.0
+
+[node name="Label" type="Label" parent="VBoxUI/VBoxMainMenu"]
+layout_mode = 2
+offset_right = 178.0
+offset_bottom = 32.0
+text = "Welcome to Checkers!"
+
+[node name="HostGame" type="Button" parent="VBoxUI/VBoxMainMenu"]
+layout_mode = 2
+offset_top = 36.0
+offset_right = 178.0
+offset_bottom = 73.0
+text = "Host Game"
+
+[node name="JoinGame" type="Button" parent="VBoxUI/VBoxMainMenu"]
+layout_mode = 2
+offset_top = 77.0
+offset_right = 178.0
+offset_bottom = 114.0
+text = "Join Game"
+
+[node name="TurnDisplay" type="HBoxContainer" parent="VBoxUI"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-offset_right = 127.0
-offset_bottom = 124.0
+offset_top = 118.0
+offset_right = 178.0
+offset_bottom = 150.0
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="Out" type="Label" parent="VBox/TurnDisplay"]
+[node name="Out" type="Label" parent="VBoxUI/TurnDisplay"]
 layout_mode = 2
-offset_top = 46.0
 offset_right = 46.0
-offset_bottom = 78.0
+offset_bottom = 32.0
 text = "White"
 uppercase = true
 
-[node name="Label2" type="Label" parent="VBox/TurnDisplay"]
+[node name="Label2" type="Label" parent="VBoxUI/TurnDisplay"]
 layout_mode = 2
 offset_left = 46.0
-offset_top = 46.0
 offset_right = 103.0
-offset_bottom = 78.0
+offset_bottom = 32.0
 text = "'s turn"
 
-[node name="WinResult" type="VBoxContainer" parent="VBox"]
+[node name="WinResult" type="VBoxContainer" parent="VBoxUI"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-offset_right = 127.0
-offset_bottom = 117.0
+offset_top = 118.0
+offset_right = 178.0
+offset_bottom = 235.0
 theme_override_constants/separation = 0
 
-[node name="Winner" type="HBoxContainer" parent="VBox/WinResult"]
+[node name="Winner" type="HBoxContainer" parent="VBoxUI/WinResult"]
 layout_mode = 2
-offset_right = 127.0
+offset_right = 178.0
 offset_bottom = 32.0
 theme_override_constants/separation = 0
 
-[node name="Out" type="Label" parent="VBox/WinResult/Winner"]
+[node name="Out" type="Label" parent="VBoxUI/WinResult/Winner"]
 layout_mode = 2
-offset_right = 63.0
+offset_right = 89.0
 offset_bottom = 32.0
 size_flags_horizontal = 3
 text = "no-one"
 horizontal_alignment = 2
 uppercase = true
 
-[node name="Label2" type="Label" parent="VBox/WinResult/Winner"]
+[node name="Label2" type="Label" parent="VBoxUI/WinResult/Winner"]
 layout_mode = 2
-offset_left = 63.0
-offset_right = 127.0
+offset_left = 89.0
+offset_right = 178.0
 offset_bottom = 32.0
 size_flags_horizontal = 3
 text = " wins!"
 
-[node name="Score" type="HBoxContainer" parent="VBox/WinResult"]
+[node name="Score" type="HBoxContainer" parent="VBoxUI/WinResult"]
 layout_mode = 2
-offset_left = 21.0
+offset_left = 47.0
 offset_top = 32.0
-offset_right = 105.0
+offset_right = 131.0
 offset_bottom = 56.0
 size_flags_horizontal = 4
 
-[node name="Label" type="Label" parent="VBox/WinResult/Score"]
+[node name="Label" type="Label" parent="VBoxUI/WinResult/Score"]
 layout_mode = 2
 offset_right = 27.0
 offset_bottom = 24.0
 theme_override_font_sizes/font_size = 20
 text = "with"
 
-[node name="Out" type="Label" parent="VBox/WinResult/Score"]
+[node name="Out" type="Label" parent="VBoxUI/WinResult/Score"]
 layout_mode = 2
 offset_left = 31.0
 offset_right = 43.0
@@ -94,7 +119,7 @@ offset_bottom = 24.0
 theme_override_font_sizes/font_size = 20
 text = "12"
 
-[node name="Label3" type="Label" parent="VBox/WinResult/Score"]
+[node name="Label3" type="Label" parent="VBoxUI/WinResult/Score"]
 layout_mode = 2
 offset_left = 47.0
 offset_right = 84.0
@@ -102,25 +127,25 @@ offset_bottom = 24.0
 theme_override_font_sizes/font_size = 20
 text = "pieces"
 
-[node name="Label" type="Label" parent="VBox/WinResult"]
+[node name="Label" type="Label" parent="VBoxUI/WinResult"]
 layout_mode = 2
-offset_left = 35.0
+offset_left = 60.0
 offset_top = 56.0
-offset_right = 92.0
+offset_right = 117.0
 offset_bottom = 80.0
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 20
 text = "remaining"
 
-[node name="PlayAgain" type="Button" parent="VBox/WinResult"]
+[node name="PlayAgain" type="Button" parent="VBoxUI/WinResult"]
 layout_mode = 2
-offset_left = 19.0
+offset_left = 45.0
 offset_top = 80.0
-offset_right = 107.0
+offset_right = 133.0
 offset_bottom = 117.0
 size_flags_horizontal = 4
 text = "Play again"
 
 [connection signal="game_won" from="CheckersGame" to="." method="_on_checkers_game_game_won"]
 [connection signal="turn_toggled" from="CheckersGame" to="." method="_on_checkers_game_turn_toggled"]
-[connection signal="pressed" from="VBox/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
