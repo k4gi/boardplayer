@@ -169,6 +169,9 @@ offset_bottom = 117.0
 size_flags_horizontal = 4
 text = "Play again"
 
+[node name="Players" type="Node" parent="."]
+
 [connection signal="pressed" from="VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
+[connection signal="pressed" from="VBoxUI/MainMenu/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
 [connection signal="pressed" from="VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
