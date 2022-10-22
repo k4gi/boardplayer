@@ -37,3 +37,10 @@ func _on_play_again_pressed():
 
 func _on_local_game_pressed():
 	create_game()
+
+
+func _on_host_game_pressed():
+	print("hello")
+	var peer = ENetMultiplayerPeer.new()
+	peer.create_server(9999)
+	get_tree().get_multiplayer().set_multiplayer_peer(peer)
