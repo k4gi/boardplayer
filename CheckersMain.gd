@@ -69,7 +69,7 @@ func _on_peer_disconnected(id):
 func create_player(id):
 	var new_player = PLAYER.instantiate()
 	new_player.set("peer_id", id)
-	$Players.add_child(new_player)
+	$Players.add_child(new_player, true)
 	print("player created %d" % id)
 
 

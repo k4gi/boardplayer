@@ -171,6 +171,10 @@ text = "Play again"
 
 [node name="Players" type="Node" parent="."]
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Player.tscn")
+spawn_path = NodePath("../Players")
+
 [connection signal="pressed" from="VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
 [connection signal="pressed" from="VBoxUI/MainMenu/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
