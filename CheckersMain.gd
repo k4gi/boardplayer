@@ -16,7 +16,7 @@ func create_game():
 	get_node("%MainMenu").set_visible(false)
 	
 	CheckersGame = CHECKERS_GAME.instantiate()
-	CheckersGame.set_position(Vector2i(128,0))
+	CheckersGame.set_position(Vector2i(512,0))
 	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
 	CheckersGame.game_won.connect(_on_checkers_game_game_won)
 	add_child(CheckersGame)

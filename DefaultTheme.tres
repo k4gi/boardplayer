@@ -5,3 +5,8 @@
 [resource]
 default_font = ExtResource("1_t32ao")
 default_font_size = 28
+MarginContainer/constants/margin_bottom = 16
+MarginContainer/constants/margin_left = 16
+MarginContainer/constants/margin_right = 16
+MarginContainer/constants/margin_top = 16
+TextEdit/colors/font_readonly_color = Color(1, 1, 1, 1)
