@@ -56,6 +56,9 @@ func _on_host_game_pressed():
 	multiplayer.set_multiplayer_peer(peer)
 	
 	create_player(1)
+	
+	get_node("%MainMenu").set_visible(false)
+	get_node("%Chat").set_visible(true)
 
 
 func _on_peer_connected(id):
@@ -70,7 +73,7 @@ func create_player(id):
 	var new_player = PLAYER.instantiate()
 	new_player.set("peer_id", id)
 	$Players.add_child(new_player, true)
-	print("player created %d" % id)
+	get_node("%Chat/TextEdit").set_line( 0, "player created %d" % id)
 
 
 func remove_player(id):
@@ -78,7 +81,7 @@ func remove_player(id):
 		if each_player.get("peer_id") == id:
 			$Players.remove_child(each_player)
 			each_player.queue_free()
-			print("player removed %d" % id)
+	get_node("%Chat/TextEdit").set_line( get_node("%Chat/TextEdit").get_line_count(), "player removed %d" % id)
 
 
 func _on_join_game_pressed():
@@ -87,3 +90,6 @@ func _on_join_game_pressed():
 	peer.create_client(network_address, network_port)
 
 	multiplayer.set_multiplayer_peer(peer)
+	
+	get_node("%MainMenu").set_visible(false)
+	get_node("%Chat").set_visible(true)
