@@ -1,14 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkhy1km40x481"]
+[gd_scene load_steps=5 format=3 uid="uid://dkhy1km40x481"]
 
 [ext_resource type="Script" path="res://CheckersMain.gd" id="1_farx3"]
 [ext_resource type="Theme" uid="uid://d2vr315te7cd8" path="res://DefaultTheme.tres" id="3_183qv"]
 [ext_resource type="Theme" uid="uid://tvwj3tis3sd3" path="res://BigTextTheme.tres" id="3_cfsq8"]
+[ext_resource type="Script" path="res://Chat.gd" id="4_4to8l"]
 
 [node name="CheckersMain" type="Node2D"]
 script = ExtResource("1_farx3")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2i(1024, 512)
+custom_minimum_size = Vector2(1024, 512)
 offset_right = 412.0
 offset_bottom = 227.0
 theme = ExtResource("3_183qv")
@@ -47,7 +48,7 @@ size_flags_horizontal = 4
 text = "Local Game"
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
-custom_minimum_size = Vector2i(0, 1)
+custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 offset_top = 149.0
 offset_right = 992.0
@@ -104,7 +105,7 @@ text = "'s turn"
 [node name="WinResult" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2i(128, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 offset_top = 231.0
 offset_right = 233.0
@@ -186,7 +187,7 @@ offset_bottom = 253.0
 size_flags_horizontal = 4
 text = "Play again"
 
-[node name="Chat" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
+[node name="Chat" type="ScrollContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -194,22 +195,10 @@ offset_top = 231.0
 offset_right = 992.0
 offset_bottom = 480.0
 size_flags_vertical = 3
+script = ExtResource("4_4to8l")
 
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxUI/Chat"]
-custom_minimum_size = Vector2i(480, 0)
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat"]
 layout_mode = 2
-offset_right = 480.0
-offset_bottom = 249.0
-size_flags_horizontal = 0
-size_flags_vertical = 3
-text = "	Tab"
-placeholder_text = "Text is supposed to go here"
-editable = false
-drag_and_drop_selection_enabled = false
-virtual_keyboard_enabled = false
-middle_mouse_paste_enabled = false
-wrap_mode = 1
-draw_tabs = true
 
 [node name="Players" type="Node" parent="."]
 
