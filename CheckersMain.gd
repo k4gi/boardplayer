@@ -93,3 +93,4 @@ func _on_join_game_pressed():
 	
 	get_node("%MainMenu").set_visible(false)
 	get_node("%Chat").set_visible(true)
+
