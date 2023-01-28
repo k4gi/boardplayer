@@ -73,7 +73,8 @@ func create_player(id):
 	var new_player = PLAYER.instantiate()
 	new_player.set("peer_id", id)
 	$Players.add_child(new_player, true)
-	get_node("%Chat").add_message("player created %d" % id)
+	%Chat.add_message("player connected: %d" % id)
+	%Chat.rpc("add_message", "player connected: %d" % id)
 
 
 func remove_player(id):
@@ -81,7 +82,8 @@ func remove_player(id):
 		if each_player.get("peer_id") == id:
 			$Players.remove_child(each_player)
 			each_player.queue_free()
-	get_node("%Chat").add_message("player removed %d" % id)
+	%Chat.add_message("player disconnected %d" % id)
+	%Chat.rpc("add_message", "player disconnected %d" % id)
 
 
 func _on_join_game_pressed():

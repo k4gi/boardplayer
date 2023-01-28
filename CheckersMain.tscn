@@ -203,11 +203,32 @@ offset_bottom = 480.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox"]
 layout_mode = 2
 offset_right = 494.0
 offset_bottom = 480.0
 size_flags_horizontal = 3
+
+[node name="VBoxMPStatus" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox"]
+layout_mode = 2
+offset_right = 494.0
+offset_bottom = 119.0
+size_flags_vertical = 3
+
+[node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox"]
+layout_mode = 2
+offset_top = 123.0
+offset_right = 494.0
+offset_bottom = 480.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox/Scroll"]
+layout_mode = 2
+offset_right = 494.0
+offset_bottom = 357.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxControls" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox"]
 layout_mode = 2

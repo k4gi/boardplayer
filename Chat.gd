@@ -4,8 +4,17 @@ extends ScrollContainer
 @rpc(any_peer)
 func add_message(message: String):
 	var new_label = Label.new()
-	new_label.set_text( "%s: %s" % [multiplayer.get_remote_sender_id(), message] )
-	$HBox/VBoxChat.add_child(new_label)
+	var remote_sender = multiplayer.get_remote_sender_id()
+	if remote_sender == 0:
+		remote_sender = multiplayer.get_unique_id()
+	new_label.set_text( "%s: %s" % [remote_sender, message] )
+	$HBox/VBox/Scroll/VBoxChat.add_child(new_label)
+
+
+func set_mp_status():
+	var new_label = Label.new()
+	new_label.set_text( "%s" % multiplayer.get_unique_id() )
+	$HBox/VBox/VBoxMPStatus.add_child(new_label)
 
 
 func _on_ready_button_pressed():
