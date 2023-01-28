@@ -7,6 +7,7 @@ const PLAYER = preload("res://Player.tscn")
 
 var network_address = "localhost"
 var network_port = 54321
+var opponent_peer_id
 
 
 var CheckersGame = null
@@ -59,6 +60,7 @@ func _on_host_game_pressed():
 	
 	get_node("%MainMenu").set_visible(false)
 	get_node("%Chat").set_visible(true)
+	%Chat.set_mp_status()
 
 
 func _on_peer_connected(id):
@@ -95,4 +97,5 @@ func _on_join_game_pressed():
 	
 	get_node("%MainMenu").set_visible(false)
 	get_node("%Chat").set_visible(true)
+	%Chat.set_mp_status()
 

@@ -241,6 +241,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 offset_right = 494.0
 offset_bottom = 37.0
+disabled = true
 text = "Play the game"
 
 [node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls"]
@@ -248,6 +249,7 @@ layout_mode = 2
 offset_top = 41.0
 offset_right = 494.0
 offset_bottom = 78.0
+toggle_mode = true
 text = "Ready"
 
 [node name="HBoxChatEntry" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls"]
@@ -279,6 +281,6 @@ spawn_path = NodePath("../Players")
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]
 [connection signal="text_submitted" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry/ChatEntry" to="MarginContainer/VBoxUI/Chat" method="_on_chat_entry_text_submitted"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry/ChatSend" to="MarginContainer/VBoxUI/Chat" method="_on_chat_send_pressed"]
