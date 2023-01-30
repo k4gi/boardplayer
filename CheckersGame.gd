@@ -163,18 +163,18 @@ func spawn_highlight(pos: Vector2i, taking_piece, type="move"):
 func _on_move_highlight_move_here(highlight):
 	var is_action = highlight.get("is_action")
 	var taking_piece = highlight.get("is_taking_piece")
+	var highlight_pos = highlight.get_position()
 	
 	if not is_action: #not making a move
-		put_piece_back_down( highlight.get_position() )
+		put_piece_back_down( highlight_pos )
 		set_all_pieces_pickable(true, turn)
 	elif taking_piece == null: #making a move but not taking a piecee
 		toggle_turn()
-		move_piece_in_array( highlight.get_position() )
-		put_piece_back_down( highlight.get_position() )
+		move_piece_in_array( highlight_pos )
+		put_piece_back_down( highlight_pos )
 		set_all_pieces_pickable(true, turn)
 	else: #taking a piece!!!
 		delete_piece( taking_piece )
-		var highlight_pos = highlight.get_position()
 		move_piece_in_array( highlight_pos )
 		# update score and remove taken piece
 		if subtract_score( taking_piece.get("allegiance") ):
