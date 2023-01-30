@@ -18,10 +18,18 @@ func create_game():
 	get_node("%MainMenu").set_visible(false)
 	%Chat/VBox/VBoxControls.set_visible(false)
 	
+	var remote_sender = multiplayer.get_remote_sender_id()
+	
 	CheckersGame = CHECKERS_GAME.instantiate()
 	CheckersGame.set_position(Vector2i(512,0))
 	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
 	CheckersGame.game_won.connect(_on_checkers_game_game_won)
+	
+	if remote_sender == 0: #i must therefore be the host
+		CheckersGame.i_can_move.erase("black")
+	else:
+		CheckersGame.i_can_move.erase("white")
+	
 	add_child(CheckersGame)
 	
 	get_node("%TurnDisplay").set_visible(true)

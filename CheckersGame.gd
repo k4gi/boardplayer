@@ -35,6 +35,11 @@ var score = {
 var turn = "white"
 
 
+#for multiplayer
+var i_can_move = ["white", "black"] #which side i'm on
+var in_control_of_piece = false #whether i'm moving the carried piece 
+
+
 func _ready():
 	#build piece_array
 	for x in range(8):
@@ -80,21 +85,38 @@ func spawn_piece(x,y,facing,colour):
 
 
 func _process(_delta):
-	if carried_piece != null:
+	if carried_piece != null and in_control_of_piece:
 		carried_piece.set_global_position( get_global_mouse_position() + carried_piece.get("grab_position") )
+		rpc("remote_control_piece", get_global_mouse_position() + carried_piece.get("grab_position") )
+
+
+@rpc(any_peer)
+func remote_control_piece(pos):
+	if carried_piece != null and not in_control_of_piece:
+		carried_piece.set_global_position( pos )
 
 
 func _on_checkers_piece_pickup_piece(piece):
 	piece.grab_position = piece.get_global_position() - get_global_mouse_position()
 	piece.set_z_index(1) #want held piece to be above all others
+	set_all_pieces_pickable(false)
 	
 	carried_piece = piece
-	
-	set_all_pieces_pickable(false)
+	in_control_of_piece = true
+	rpc("remote_pickup_piece", find_piece_in_array(), carried_piece.grab_position)
 	
 	spawn_highlight(piece.get_position(), null, "return")
 	
 	place_move_highlights(carried_piece.get_position())
+
+
+@rpc(any_peer)
+func remote_pickup_piece(coords: Vector2i, grab_position: Vector2):
+	carried_piece = piece_array[coords.x][coords.y]
+	carried_piece.grab_position = grab_position
+	carried_piece.set_z_index(1)
+	in_control_of_piece = false
+	set_all_pieces_pickable(false)
 
 
 func place_move_highlights(starting_pos, jumps_only = false):
@@ -204,6 +226,18 @@ func move_piece_in_array( highlight_pos ):
 	check_becoming_king( new_pos )
 
 
+func find_piece_in_array() -> Vector2i:
+	var x = 0
+	while x < 8:
+		var y = 0
+		while y < 8:
+			if piece_array[x][y] == carried_piece:
+				return Vector2i(x, y)
+			y += 1
+		x += 1
+	return Vector2i(-1,-1)
+
+
 func check_becoming_king( map_pos ):
 	if carried_piece.get("can_move").size() == 2:
 		return #already king!
@@ -219,16 +253,17 @@ func put_piece_back_down( highlight_pos ):
 	carried_piece.set_position( highlight_pos )
 	carried_piece.set_z_index(0)
 	carried_piece = null
+	in_control_of_piece = false
 	for each_highlight in $Board/Highlights.get_children():
 		each_highlight.queue_free()
 	set_all_pieces_pickable(true, turn)
 
 
 func set_all_pieces_pickable(boolean, target_colour="both"):
-	if target_colour != "black":
+	if target_colour != "black" and i_can_move.has("white"):
 		for each_piece in $Board/WhitePieces.get_children():
 			each_piece.set_pickable(boolean)
-	if target_colour != "white":
+	if target_colour != "white" and i_can_move.has("black"):
 		for each_piece in $Board/BlackPieces.get_children():
 			each_piece.set_pickable(boolean)
 
