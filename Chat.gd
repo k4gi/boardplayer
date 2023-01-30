@@ -66,6 +66,7 @@ func _on_ready_button_toggled(button_pressed):
 			$VBox/VBoxControls/StartMultiGame.set_disabled(true)
 
 
-func _on_scrollbar_changed(scrollbar):
+func _on_scrollbar_changed():
+	print($VBox/Scroll.get_v_scroll_bar().get_max())
 	$VBox/Scroll.set_v_scroll($VBox/Scroll.get_v_scroll_bar().get_max())
 
