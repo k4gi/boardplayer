@@ -187,7 +187,7 @@ offset_bottom = 253.0
 size_flags_horizontal = 4
 text = "Play again"
 
-[node name="Chat" type="ScrollContainer" parent="MarginContainer/VBoxUI"]
+[node name="Chat" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -196,55 +196,26 @@ offset_bottom = 480.0
 size_flags_vertical = 3
 script = ExtResource("4_4to8l")
 
-[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat"]
-layout_mode = 2
-offset_right = 992.0
-offset_bottom = 480.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox"]
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat"]
 layout_mode = 2
 offset_right = 494.0
 offset_bottom = 480.0
 size_flags_horizontal = 3
 
-[node name="VBoxMPStatus" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox"]
+[node name="VBoxControls" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
 layout_mode = 2
 offset_right = 494.0
-offset_bottom = 119.0
-size_flags_vertical = 3
-
-[node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox"]
-layout_mode = 2
-offset_top = 123.0
-offset_right = 494.0
-offset_bottom = 480.0
-size_flags_vertical = 3
-size_flags_stretch_ratio = 3.0
-
-[node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBox/Scroll"]
-layout_mode = 2
-offset_right = 494.0
-offset_bottom = 357.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBoxControls" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox"]
-layout_mode = 2
-offset_left = 498.0
-offset_right = 992.0
-offset_bottom = 480.0
+offset_bottom = 78.0
 size_flags_horizontal = 3
 
-[node name="StartGame" type="Button" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls"]
+[node name="StartMultiGame" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
 layout_mode = 2
 offset_right = 494.0
 offset_bottom = 37.0
 disabled = true
 text = "Play the game"
 
-[node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls"]
+[node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
 layout_mode = 2
 offset_top = 41.0
 offset_right = 494.0
@@ -252,24 +223,56 @@ offset_bottom = 78.0
 toggle_mode = true
 text = "Ready"
 
-[node name="HBoxChatEntry" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls"]
+[node name="VBoxMPStatus" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
 layout_mode = 2
 offset_top = 82.0
 offset_right = 494.0
-offset_bottom = 119.0
+offset_bottom = 180.0
+size_flags_vertical = 3
 
-[node name="ChatEntry" type="LineEdit" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry"]
+[node name="HBoxChatEntry" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus"]
+layout_mode = 2
+offset_top = 61.0
+offset_right = 494.0
+offset_bottom = 98.0
+size_flags_vertical = 10
+
+[node name="ChatEntry" type="LineEdit" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
 layout_mode = 2
 offset_right = 446.0
 offset_bottom = 37.0
 size_flags_horizontal = 3
 
-[node name="ChatSend" type="Button" parent="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry"]
+[node name="ChatSend" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
 layout_mode = 2
 offset_left = 450.0
 offset_right = 494.0
 offset_bottom = 37.0
 text = "send"
+
+[node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
+layout_mode = 2
+offset_top = 184.0
+offset_right = 494.0
+offset_bottom = 480.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/Scroll"]
+layout_mode = 2
+offset_top = 296.0
+offset_right = 494.0
+offset_bottom = 296.0
+size_flags_horizontal = 3
+size_flags_vertical = 10
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/Chat"]
+layout_mode = 2
+anchors_preset = 0
+offset_left = 498.0
+offset_right = 992.0
+offset_bottom = 480.0
+size_flags_horizontal = 3
 
 [node name="Players" type="Node" parent="."]
 
@@ -281,6 +284,7 @@ spawn_path = NodePath("../Players")
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
-[connection signal="toggled" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]
-[connection signal="text_submitted" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry/ChatEntry" to="MarginContainer/VBoxUI/Chat" method="_on_chat_entry_text_submitted"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/Chat/HBox/VBoxControls/HBoxChatEntry/ChatSend" to="MarginContainer/VBoxUI/Chat" method="_on_chat_send_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/StartMultiGame" to="." method="_on_start_multi_game_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]
+[connection signal="text_submitted" from="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry/ChatEntry" to="MarginContainer/VBoxUI/Chat" method="_on_chat_entry_text_submitted"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry/ChatSend" to="MarginContainer/VBoxUI/Chat" method="_on_chat_send_pressed"]

@@ -13,8 +13,10 @@ var opponent_peer_id
 var CheckersGame = null
 
 
+@rpc
 func create_game():
 	get_node("%MainMenu").set_visible(false)
+	%Chat/VBox/VBoxControls.set_visible(false)
 	
 	CheckersGame = CHECKERS_GAME.instantiate()
 	CheckersGame.set_position(Vector2i(512,0))
@@ -65,6 +67,7 @@ func _on_host_game_pressed():
 
 func _on_peer_connected(id):
 	create_player(id)
+	opponent_peer_id = id
 
 
 func _on_peer_disconnected(id):
@@ -99,3 +102,7 @@ func _on_join_game_pressed():
 	get_node("%Chat").set_visible(true)
 	%Chat.set_mp_status()
 
+
+func _on_start_multi_game_pressed():
+	create_game()
+	rpc("create_game")
