@@ -167,6 +167,7 @@ func _on_move_highlight_move_here(highlight):
 	
 	if not is_action: #not making a move
 		put_piece_back_down( highlight_pos )
+		rpc("put_piece_back_down", highlight_pos)
 		set_all_pieces_pickable(true, turn)
 	elif taking_piece == null: #making a move but not taking a piecee
 		toggle_turn()
@@ -226,6 +227,11 @@ func move_piece_in_array( highlight_pos ):
 	check_becoming_king( new_pos )
 
 
+@rpc(any_peer)
+func remote_move_piece_in_array( current_array_pos: Vector2i, highlight_pos ):
+	pass
+
+
 func find_piece_in_array() -> Vector2i:
 	var x = 0
 	while x < 8:
@@ -249,6 +255,7 @@ func check_becoming_king( map_pos ):
 			carried_piece.set_texture( BLACK_KING )
 
 
+@rpc(any_peer)
 func put_piece_back_down( highlight_pos ):
 	carried_piece.set_position( highlight_pos )
 	carried_piece.set_z_index(0)
