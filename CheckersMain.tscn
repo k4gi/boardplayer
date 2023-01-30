@@ -273,6 +273,7 @@ offset_left = 498.0
 offset_right = 992.0
 offset_bottom = 480.0
 size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="Players" type="Node" parent="."]
 
