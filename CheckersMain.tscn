@@ -28,8 +28,9 @@ grow_vertical = 2
 unique_name_in_owner = true
 layout_mode = 2
 offset_right = 992.0
-offset_bottom = 227.0
+offset_bottom = 339.0
 theme = ExtResource("3_cfsq8")
+theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu"]
 layout_mode = 2
@@ -41,37 +42,98 @@ horizontal_alignment = 1
 [node name="LocalGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
 layout_mode = 2
 offset_left = 389.0
-offset_top = 72.0
+offset_top = 78.0
 offset_right = 603.0
-offset_bottom = 145.0
+offset_bottom = 151.0
 size_flags_horizontal = 4
 text = "Local Game"
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
-offset_top = 149.0
+offset_top = 161.0
 offset_right = 992.0
-offset_bottom = 150.0
+offset_bottom = 162.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
 layout_mode = 2
-offset_left = 296.0
-offset_top = 154.0
-offset_right = 696.0
-offset_bottom = 227.0
+offset_left = 285.0
+offset_top = 172.0
+offset_right = 707.0
+offset_bottom = 245.0
 size_flags_horizontal = 4
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 95.0
+offset_bottom = 70.0
+text = "Port:"
+
+[node name="HostPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 99.0
+offset_right = 215.0
+offset_bottom = 73.0
+size_flags_horizontal = 3
 
 [node name="HostGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
 layout_mode = 2
-offset_right = 203.0
+offset_left = 219.0
+offset_right = 422.0
 offset_bottom = 73.0
 text = "Host Game"
 
-[node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+[node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
+custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
-offset_left = 207.0
-offset_right = 400.0
+offset_top = 255.0
+offset_right = 992.0
+offset_bottom = 256.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
+offset_top = 266.0
+offset_right = 992.0
+offset_bottom = 339.0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+layout_mode = 2
+offset_top = 2.0
+offset_right = 206.0
+offset_bottom = 70.0
+text = "IP address:"
+
+[node name="IPAddressEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 210.0
+offset_right = 531.0
+offset_bottom = 73.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+layout_mode = 2
+offset_left = 535.0
+offset_top = 2.0
+offset_right = 630.0
+offset_bottom = 70.0
+text = "Port:"
+
+[node name="IPPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 634.0
+offset_right = 795.0
+offset_bottom = 73.0
+size_flags_horizontal = 3
+
+[node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+layout_mode = 2
+offset_left = 799.0
+offset_right = 992.0
 offset_bottom = 73.0
 text = "Join Game"
 
@@ -283,7 +345,7 @@ spawn_path = NodePath("../Players")
 
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer2/JoinGame" to="." method="_on_join_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/StartMultiGame" to="." method="_on_start_multi_game_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]

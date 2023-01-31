@@ -13,6 +13,11 @@ var opponent_peer_id = null
 var CheckersGame = null
 
 
+func _ready():
+	%IPAddressEntry.set_text( str(network_address) )
+	%IPPortEntry.set_text( str(network_port) )
+	%HostPortEntry.set_text( str(network_port) )
+
 @rpc
 func create_game():
 	get_node("%MainMenu").set_visible(false)
@@ -62,11 +67,11 @@ func _on_host_game_pressed():
 	# Listen to peer disconnections, and destroy their players
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
+	network_port = int( %HostPortEntry.get_text() )
+	
 	peer.create_server(network_port)
 
 	multiplayer.set_multiplayer_peer(peer)
-	
-	create_player(1)
 	
 	get_node("%MainMenu").set_visible(false)
 	get_node("%Chat").set_visible(true)
@@ -106,6 +111,9 @@ func remove_player(id):
 
 func _on_join_game_pressed():
 	var peer = ENetMultiplayerPeer.new()
+	
+	network_address = %IPAddressEntry.get_text()
+	network_port = int( %IPPortEntry.get_text() )
 	
 	peer.create_client(network_address, network_port)
 
