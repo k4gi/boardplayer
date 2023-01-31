@@ -23,7 +23,7 @@ func create_game():
 	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
 	CheckersGame.game_won.connect(_on_checkers_game_game_won)
 	
-	if opponent_peer_id != null:
+	if opponent_peer_id != null: #we're doing network multiplayer
 		var remote_sender = multiplayer.get_remote_sender_id()
 		if remote_sender == 0: #i must therefore be the host
 			CheckersGame.i_can_move.erase("black")
@@ -74,12 +74,17 @@ func _on_host_game_pressed():
 
 
 func _on_peer_connected(id):
-	create_player(id)
+	opponent_peer_id = id
+	rpc("set_opponent_peer_id", multiplayer.get_multiplayer_peer()) #should be 1? cause we're the host?
+
+
+@rpc
+func set_opponent_peer_id(id):
 	opponent_peer_id = id
 
 
 func _on_peer_disconnected(id):
-	remove_player(id)
+	pass
 
 
 func create_player(id):

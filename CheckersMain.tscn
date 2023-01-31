@@ -16,6 +16,7 @@ theme = ExtResource("3_183qv")
 metadata/_edit_use_anchors_ = true
 
 [node name="VBoxUI" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 1008.0
@@ -25,17 +26,20 @@ grow_vertical = 2
 
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
+layout_mode = 2
 offset_right = 992.0
 offset_bottom = 227.0
 theme = ExtResource("3_cfsq8")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
 offset_right = 992.0
 offset_bottom = 68.0
 text = "Welcome to Checkers!"
 horizontal_alignment = 1
 
 [node name="LocalGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
 offset_left = 389.0
 offset_top = 72.0
 offset_right = 603.0
@@ -45,11 +49,13 @@ text = "Local Game"
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
 custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
 offset_top = 149.0
 offset_right = 992.0
 offset_bottom = 150.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
 offset_left = 296.0
 offset_top = 154.0
 offset_right = 696.0
@@ -57,11 +63,13 @@ offset_bottom = 227.0
 size_flags_horizontal = 4
 
 [node name="HostGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+layout_mode = 2
 offset_right = 203.0
 offset_bottom = 73.0
 text = "Host Game"
 
 [node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+layout_mode = 2
 offset_left = 207.0
 offset_right = 400.0
 offset_bottom = 73.0
@@ -70,6 +78,7 @@ text = "Join Game"
 [node name="TurnDisplay" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2
 offset_top = 231.0
 offset_right = 992.0
 offset_bottom = 480.0
@@ -78,6 +87,7 @@ theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 0
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
+layout_mode = 2
 offset_top = 90.0
 offset_right = 106.0
 offset_bottom = 158.0
@@ -85,6 +95,7 @@ text = "White"
 uppercase = true
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
+layout_mode = 2
 offset_left = 106.0
 offset_top = 90.0
 offset_right = 238.0
@@ -95,6 +106,7 @@ text = "'s turn"
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
 offset_top = 231.0
 offset_right = 233.0
 offset_bottom = 484.0
@@ -103,11 +115,13 @@ theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 0
 
 [node name="Winner" type="HBoxContainer" parent="MarginContainer/VBoxUI/WinResult"]
+layout_mode = 2
 offset_right = 233.0
 offset_bottom = 68.0
 theme_override_constants/separation = 0
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/WinResult/Winner"]
+layout_mode = 2
 offset_right = 121.0
 offset_bottom = 68.0
 size_flags_horizontal = 3
@@ -116,6 +130,7 @@ horizontal_alignment = 2
 uppercase = true
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/WinResult/Winner"]
+layout_mode = 2
 offset_left = 121.0
 offset_right = 233.0
 offset_bottom = 68.0
@@ -123,6 +138,7 @@ size_flags_horizontal = 3
 text = " wins!"
 
 [node name="Score" type="HBoxContainer" parent="MarginContainer/VBoxUI/WinResult"]
+layout_mode = 2
 offset_left = 16.0
 offset_top = 68.0
 offset_right = 217.0
@@ -130,12 +146,14 @@ offset_bottom = 124.0
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
+layout_mode = 2
 offset_right = 69.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 52
 text = "with"
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
+layout_mode = 2
 offset_left = 73.0
 offset_right = 103.0
 offset_bottom = 56.0
@@ -143,6 +161,7 @@ theme_override_font_sizes/font_size = 52
 text = "12"
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
+layout_mode = 2
 offset_left = 107.0
 offset_right = 201.0
 offset_bottom = 56.0
@@ -150,6 +169,7 @@ theme_override_font_sizes/font_size = 52
 text = "pieces"
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/WinResult"]
+layout_mode = 2
 offset_left = 43.0
 offset_top = 124.0
 offset_right = 189.0
@@ -159,6 +179,7 @@ theme_override_font_sizes/font_size = 52
 text = "remaining"
 
 [node name="PlayAgain" type="Button" parent="MarginContainer/VBoxUI/WinResult"]
+layout_mode = 2
 offset_left = 20.0
 offset_top = 180.0
 offset_right = 213.0
@@ -169,28 +190,33 @@ text = "Play again"
 [node name="Chat" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
+layout_mode = 2
 offset_right = 992.0
 offset_bottom = 480.0
 size_flags_vertical = 3
 script = ExtResource("4_4to8l")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat"]
+layout_mode = 2
 offset_right = 494.0
 offset_bottom = 480.0
 size_flags_horizontal = 3
 
 [node name="VBoxControls" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
+layout_mode = 2
 offset_right = 494.0
 offset_bottom = 78.0
 size_flags_horizontal = 3
 
 [node name="StartMultiGame" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
+layout_mode = 2
 offset_right = 494.0
 offset_bottom = 37.0
 disabled = true
 text = "Play the game"
 
 [node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
+layout_mode = 2
 offset_top = 41.0
 offset_right = 494.0
 offset_bottom = 78.0
@@ -198,29 +224,34 @@ toggle_mode = true
 text = "Ready"
 
 [node name="VBoxMPStatus" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
+layout_mode = 2
 offset_top = 82.0
 offset_right = 494.0
 offset_bottom = 180.0
 size_flags_vertical = 3
 
 [node name="HBoxChatEntry" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus"]
+layout_mode = 2
 offset_top = 61.0
 offset_right = 494.0
 offset_bottom = 98.0
 size_flags_vertical = 10
 
 [node name="ChatEntry" type="LineEdit" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
+layout_mode = 2
 offset_right = 446.0
 offset_bottom = 37.0
 size_flags_horizontal = 3
 
 [node name="ChatSend" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
+layout_mode = 2
 offset_left = 450.0
 offset_right = 494.0
 offset_bottom = 37.0
 text = "send"
 
 [node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
+layout_mode = 2
 offset_top = 184.0
 offset_right = 494.0
 offset_bottom = 480.0
@@ -228,6 +259,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
 [node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/Scroll"]
+layout_mode = 2
 offset_top = 296.0
 offset_right = 494.0
 offset_bottom = 296.0
@@ -235,7 +267,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 10
 
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/Chat"]
-layout_mode = 3
+layout_mode = 2
 anchors_preset = 0
 offset_left = 498.0
 offset_right = 992.0
