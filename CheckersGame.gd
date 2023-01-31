@@ -171,17 +171,14 @@ func _on_move_highlight_move_here(highlight):
 		set_all_pieces_pickable(true, turn)
 	elif taking_piece == null: #making a move but not taking a piecee
 		toggle_turn()
-		move_piece_in_array( highlight_pos )
+		move_piece_in_array( find_piece_in_array(), highlight_pos )
 		put_piece_back_down( highlight_pos )
 		set_all_pieces_pickable(true, turn)
 	else: #taking a piece!!!
 		delete_piece( taking_piece )
-		move_piece_in_array( highlight_pos )
+		move_piece_in_array( find_piece_in_array(), highlight_pos )
 		# update score and remove taken piece
-		if subtract_score( taking_piece.get("allegiance") ):
-			put_piece_back_down( highlight_pos )
-			set_all_pieces_pickable(false)
-			return
+		subtract_score( taking_piece.get("allegiance") )
 		#test whether we can take more pieces
 		for each_child in $Board/Highlights.get_children():
 			$Board/Highlights.remove_child( each_child )
@@ -210,26 +207,17 @@ func delete_piece( piece ):
 	piece.queue_free()
 
 
-func move_piece_in_array( highlight_pos ):
-	var x = 0
-	while x < 8:
-		var y = 0
-		while y < 8:
-			if piece_array[x][y] == carried_piece:
-				piece_array[x][y] = null
-				x = 10
-				y = 10
-			y += 1
-		x += 1
+@rpc(any_peer)
+func move_piece_in_array( current_array_pos: Vector2i, highlight_pos: Vector2 ):
+	if current_array_pos == Vector2i(-1,-1):
+		print("oh no! this piece isn't on the board!")
+		return
+	
+	piece_array[current_array_pos.x][current_array_pos.y] = null
 	var new_pos = $Board.local_to_map( highlight_pos )
 	piece_array[new_pos.x][new_pos.y] = carried_piece
 	#check for becoming king while we're here
 	check_becoming_king( new_pos )
-
-
-@rpc(any_peer)
-func remote_move_piece_in_array( current_array_pos: Vector2i, highlight_pos ):
-	pass
 
 
 func find_piece_in_array() -> Vector2i:
