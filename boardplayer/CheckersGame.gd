@@ -169,15 +169,9 @@ func _on_move_highlight_move_here(highlight):
 		rpc("put_piece_back_down", highlight_pos)
 		set_all_pieces_pickable(true, turn)
 	elif taking_piece == null: #making a move but not taking a piecee
-		rpc("toggle_turn")
-		rpc("move_piece_in_array", find_piece_in_array(), highlight_pos )
-		rpc("put_piece_back_down", highlight_pos )
-		rpc("set_all_pieces_pickable", true, turn)
+		rpc("move_without_taking_piece", find_piece_in_array(), highlight_pos)
 	else: #taking a piece!!!
-		rpc("delete_piece", taking_piece.get_position() )
-		rpc("move_piece_in_array", find_piece_in_array(), highlight_pos )
-		# update score and remove taken piece
-		rpc("subtract_score", taking_piece.get("allegiance") )
+		rpc("move_with_taking_piece", find_piece_in_array(), highlight_pos, taking_piece.get_position(), taking_piece.get("allegiance"))
 		#test whether we can take more pieces
 		for each_child in $Board/Highlights.get_children():
 			$Board/Highlights.remove_child( each_child )
@@ -186,29 +180,46 @@ func _on_move_highlight_move_here(highlight):
 		place_move_highlights( highlight_pos, true )
 		
 		if $Board/Highlights.get_child_count() == 0:
-			rpc("toggle_turn")
-			rpc("put_piece_back_down", highlight_pos )
-			rpc("set_all_pieces_pickable", true, turn)
+			rpc("finish_taking_pieces", highlight_pos)
 		else:
 			#if jumping is not mandatory
 			spawn_highlight( highlight_pos, null)
 
 
 @rpc(any_peer, call_local)
+func move_without_taking_piece(piece_in_array: Vector2i, highlight_pos):
+	toggle_turn()
+	move_piece_in_array(piece_in_array, highlight_pos)
+	put_piece_back_down(highlight_pos)
+	set_all_pieces_pickable(true, turn)
+
+
+@rpc(any_peer, call_local)
+func move_with_taking_piece(piece_in_array: Vector2i, highlight_pos, taking_piece_position, taking_piece_allegiance):
+	delete_piece(taking_piece_position)
+	move_piece_in_array(piece_in_array, highlight_pos)
+	subtract_score(taking_piece_allegiance)
+
+
+@rpc(any_peer, call_local)
+func finish_taking_pieces(highlight_pos):
+	toggle_turn()
+	put_piece_back_down(highlight_pos)
+	set_all_pieces_pickable(true, turn)
+
+
 func subtract_score( allegiance ):
 	score[allegiance] -= 1
 	if score[allegiance] == 0:
 		emit_signal("game_won", turn, score)
 
 
-@rpc(any_peer, call_local)
 func delete_piece( piece_pos ):
 	var piece_grid_pos = $Board.local_to_map( piece_pos )
 	piece_array[piece_grid_pos.x][piece_grid_pos.y].queue_free()
 	piece_array[piece_grid_pos.x][piece_grid_pos.y] = null
 
 
-@rpc(any_peer, call_local)
 func move_piece_in_array( current_array_pos: Vector2i, highlight_pos: Vector2 ):
 	if current_array_pos == Vector2i(-1,-1):
 		print("oh no! this piece isn't on the board!")
@@ -233,7 +244,6 @@ func find_piece_in_array() -> Vector2i:
 	return Vector2i(-1,-1)
 
 
-@rpc(any_peer, call_local)
 func check_becoming_king( map_pos ):
 	if carried_piece.get("can_move").size() == 2:
 		return #already king!
@@ -245,7 +255,6 @@ func check_becoming_king( map_pos ):
 			carried_piece.set_texture( BLACK_KING )
 
 
-@rpc(any_peer, call_local)
 func put_piece_back_down( highlight_pos ):
 	carried_piece.set_position( highlight_pos )
 	carried_piece.set_z_index(0)
@@ -256,7 +265,6 @@ func put_piece_back_down( highlight_pos ):
 	set_all_pieces_pickable(true, turn)
 
 
-@rpc(any_peer, call_local)
 func set_all_pieces_pickable(boolean, target_colour="both"):
 	if target_colour != "black" and i_can_move.has("white"):
 		for each_piece in $Board/WhitePieces.get_children():
@@ -266,7 +274,6 @@ func set_all_pieces_pickable(boolean, target_colour="both"):
 			each_piece.set_pickable(boolean)
 
 
-@rpc(any_peer, call_local)
 func toggle_turn():
 	if turn == "white":
 		turn = "black"

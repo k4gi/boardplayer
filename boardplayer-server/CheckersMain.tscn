@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjttjy0u4cf8d"]
+
+[ext_resource type="Script" path="res://CheckersMain.gd" id="1_7vxvn"]
+[ext_resource type="Script" path="res://Chat.gd" id="2_m7fev"]
+[ext_resource type="Script" path="res://CheckersGame.gd" id="3_2x33v"]
+
+[node name="CheckersMain" type="Node"]
+script = ExtResource("1_7vxvn")
+
+[node name="MarginContainer" type="Node" parent="."]
+
+[node name="VBoxUI" type="Node" parent="MarginContainer"]
+
+[node name="Chat" type="Node" parent="MarginContainer/VBoxUI"]
+script = ExtResource("2_m7fev")
+
+[node name="CheckersGame" type="Node" parent="."]
+script = ExtResource("3_2x33v")

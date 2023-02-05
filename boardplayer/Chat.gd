@@ -24,11 +24,6 @@ func set_mp_status():
 	$VBox/VBoxMPStatus.add_child(new_label)
 
 
-@rpc(any_peer)
-func client_says_ready():
-	print("aaaaaa")
-
-
 func _on_chat_entry_text_submitted(new_text):
 	send_chat_message(new_text)
 
