@@ -3,4 +3,4 @@ extends Node
 
 @rpc
 func hello():
-	pass
+	print("hello from server")
