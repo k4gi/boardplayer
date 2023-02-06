@@ -7,6 +7,9 @@ const PLAYER = preload("res://Player.tscn")
 
 var network_address = "localhost"
 var network_port = 54321
+var internet_address = "51.161.152.131"
+var internet_port = 54321
+
 var opponent_peer_id = null
 
 
@@ -62,9 +65,7 @@ func _on_local_game_pressed():
 
 func _on_host_game_pressed():
 	var peer = ENetMultiplayerPeer.new()
-	# Listen to peer connections, and create new player for them
 	multiplayer.peer_connected.connect(_on_peer_connected)
-	# Listen to peer disconnections, and destroy their players
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	
 	network_port = int( %HostPortEntry.get_text() )
@@ -130,4 +131,11 @@ func _on_start_multi_game_pressed():
 
 
 func _on_online_game_pressed():
-	pass # Replace with function body.
+	var peer = ENetMultiplayerPeer.new()
+	
+	peer.create_client(internet_address, internet_port)
+	
+	multiplayer.set_multiplayer_peer(peer)
+	
+	%MainMenu.set_visible(false)
+	%Matching.set_visible(true)
