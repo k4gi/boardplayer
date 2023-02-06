@@ -26,7 +26,7 @@ offset_bottom = 496.0
 unique_name_in_owner = true
 layout_mode = 2
 offset_right = 992.0
-offset_bottom = 339.0
+offset_bottom = 433.0
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 10
 
@@ -134,6 +134,22 @@ offset_left = 799.0
 offset_right = 992.0
 offset_bottom = 73.0
 text = "Join Game"
+
+[node name="ColorRect3" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+offset_top = 349.0
+offset_right = 992.0
+offset_bottom = 350.0
+
+[node name="OnlineGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
+offset_left = 383.0
+offset_top = 360.0
+offset_right = 608.0
+offset_bottom = 433.0
+size_flags_horizontal = 4
+text = "Online Game"
 
 [node name="TurnDisplay" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
@@ -267,6 +283,7 @@ mouse_filter = 2
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer2/JoinGame" to="." method="_on_join_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/OnlineGame" to="." method="_on_online_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/StartMultiGame" to="." method="_on_start_multi_game_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]

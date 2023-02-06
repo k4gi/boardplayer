@@ -127,3 +127,7 @@ func _on_join_game_pressed():
 func _on_start_multi_game_pressed():
 	create_game()
 	rpc("create_game")
+
+
+func _on_online_game_pressed():
+	pass # Replace with function body.
