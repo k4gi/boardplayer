@@ -1,4 +1,4 @@
-extends Node
+extends HBoxContainer
 
 
 @rpc(any_peer)

@@ -5,21 +5,21 @@
 [ext_resource type="Script" path="res://CheckersGame.gd" id="3_2x33v"]
 [ext_resource type="Script" path="res://Matching.gd" id="3_4k71b"]
 
-[node name="CheckersMain" type="Node"]
+[node name="CheckersMain" type="Node2D"]
 script = ExtResource("1_7vxvn")
 
 [node name="MarginContainer" type="Node" parent="."]
 
 [node name="VBoxUI" type="Node" parent="MarginContainer"]
 
-[node name="Chat" type="Node" parent="MarginContainer/VBoxUI"]
+[node name="Chat" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 script = ExtResource("2_m7fev")
 
-[node name="Matching" type="Node" parent="MarginContainer/VBoxUI"]
+[node name="Matching" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 script = ExtResource("3_4k71b")
 
-[node name="CheckersGame" type="Node" parent="."]
+[node name="CheckersGame" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_2x33v")
