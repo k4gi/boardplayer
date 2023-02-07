@@ -283,19 +283,28 @@ mouse_filter = 2
 
 [node name="Matching" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
-offset_top = 437.0
 offset_right = 992.0
-offset_bottom = 437.0
+size_flags_vertical = 3
 script = ExtResource("5_2igk7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching"]
+[node name="Names" type="ScrollContainer" parent="MarginContainer/VBoxUI/Matching"]
+layout_mode = 2
+offset_right = 494.0
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching/Names"]
 layout_mode = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching"]
+[node name="Challenges" type="ScrollContainer" parent="MarginContainer/VBoxUI/Matching"]
 layout_mode = 2
-offset_left = 4.0
-offset_right = 4.0
+offset_left = 498.0
+offset_right = 992.0
+size_flags_horizontal = 3
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching/Challenges"]
+layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]

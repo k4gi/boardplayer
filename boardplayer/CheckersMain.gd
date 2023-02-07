@@ -7,7 +7,8 @@ const PLAYER = preload("res://Player.tscn")
 
 var network_address = "localhost"
 var network_port = 54321
-var internet_address = "51.161.152.131"
+#var internet_address = "51.161.152.131"
+var internet_address = "localhost"
 var internet_port = 54321
 
 var opponent_peer_id = null
@@ -139,3 +140,12 @@ func _on_online_game_pressed():
 	
 	%MainMenu.set_visible(false)
 	%Matching.set_visible(true)
+
+
+@rpc
+func hello():
+	%Matching.hello()
+
+@rpc
+func refresh_player_list(player_names):
+	%Matching.refresh_player_list(player_names)
