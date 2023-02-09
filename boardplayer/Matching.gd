@@ -36,7 +36,7 @@ func receive_challenge(challenger_id):
 	print("receiving challenge from %s" % challenger_id)
 	var new_entry = CHALLENGE_ENTRY.instantiate()
 	new_entry.set_challenger_id(challenger_id)
-	new_entry.accept_challange.connect(accept_challenge)
+	new_entry.accept_challenge.connect(accept_challenge)
 	new_entry.decline_challenge.connect(decline_challenge)
 	$Challenges/VBox.add_child(new_entry)
 

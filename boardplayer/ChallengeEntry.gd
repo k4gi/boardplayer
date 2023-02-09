@@ -1,7 +1,7 @@
 extends PanelContainer
 
 
-signal accept_challange(id_number)
+signal accept_challenge(id_number)
 signal decline_challenge(id_number)
 
 
@@ -17,9 +17,8 @@ func set_challenger_name(player_name):
 
 
 func _on_accept_challenge_pressed():
-	emit_signal("accept_challange", challenger_id)
+	emit_signal("accept_challenge", challenger_id)
 
 
 func _on_decline_challenge_pressed():
-	print("decline challenge pressed")
-	emit_signal("decline_challange", challenger_id)
+	emit_signal("decline_challenge", challenger_id)

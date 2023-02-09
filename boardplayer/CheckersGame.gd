@@ -255,6 +255,7 @@ func check_becoming_king( map_pos ):
 			carried_piece.set_texture( BLACK_KING )
 
 
+@rpc(any_peer, call_local)
 func put_piece_back_down( highlight_pos ):
 	carried_piece.set_position( highlight_pos )
 	carried_piece.set_z_index(0)
