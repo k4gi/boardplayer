@@ -2,7 +2,6 @@ extends Node2D
 
 
 const CHECKERS_GAME = preload("res://CheckersGame.tscn")
-const PLAYER = preload("res://Player.tscn")
 
 
 var network_address = "localhost"
@@ -23,7 +22,7 @@ func _ready():
 	%HostPortEntry.set_text( str(network_port) )
 
 @rpc
-func create_game():
+func create_game(opponent_colour=null):
 	get_node("%MainMenu").set_visible(false)
 	%Chat/VBox/VBoxControls.set_visible(false)
 	
@@ -38,6 +37,13 @@ func create_game():
 			CheckersGame.i_can_move.erase("black")
 		else:
 			CheckersGame.i_can_move.erase("white")
+	if multiplayer.get_remote_sender_id() == 1:
+		#if we're receiving this function call from the host
+		#but opponent_peer_id hasn't been set yet
+		#we must be playing an internet game!
+		#i love silly logic
+		CheckersGame.i_can_move.erase(opponent_colour)
+		%Chat.set_visible(true)
 	
 	add_child(CheckersGame)
 	
@@ -95,18 +101,11 @@ func _on_peer_disconnected(id):
 
 
 func create_player(id):
-	var new_player = PLAYER.instantiate()
-	new_player.set("peer_id", id)
-	$Players.add_child(new_player, true)
 	%Chat.add_message("player connected: %d" % id)
 	%Chat.rpc("add_message", "player connected: %d" % id)
 
 
 func remove_player(id):
-	for each_player in $Players.get_children():
-		if each_player.get("peer_id") == id:
-			$Players.remove_child(each_player)
-			each_player.queue_free()
 	%Chat.add_message("player disconnected %d" % id)
 	%Chat.rpc("add_message", "player disconnected %d" % id)
 
@@ -142,10 +141,3 @@ func _on_online_game_pressed():
 	%Matching.set_visible(true)
 
 
-@rpc
-func hello():
-	%Matching.hello()
-
-@rpc
-func refresh_player_list(player_names):
-	%Matching.refresh_player_list(player_names)

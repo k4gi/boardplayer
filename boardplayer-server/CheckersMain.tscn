@@ -23,3 +23,5 @@ script = ExtResource("3_4k71b")
 [node name="CheckersGame" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_2x33v")
+
+[connection signal="create_game" from="MarginContainer/VBoxUI/Matching" to="." method="_on_matching_create_game"]

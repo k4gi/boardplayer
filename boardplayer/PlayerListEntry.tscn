@@ -1,0 +1,44 @@
+[gd_scene load_steps=2 format=3 uid="uid://8hwdr65wit7"]
+
+[ext_resource type="Script" path="res://PlayerListEntry.gd" id="1_u7me6"]
+
+[node name="PlayerListEntry" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_u7me6")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+offset_right = 1024.0
+offset_bottom = 31.0
+
+[node name="PlayerID" type="Label" parent="HBox"]
+offset_top = 2.0
+offset_right = 84.0
+offset_bottom = 28.0
+text = "id_number"
+
+[node name="PlayerName" type="Label" parent="HBox"]
+offset_left = 88.0
+offset_top = 2.0
+offset_right = 182.0
+offset_bottom = 28.0
+text = "blank_name"
+
+[node name="SendChallenge" type="Button" parent="HBox"]
+offset_left = 186.0
+offset_right = 271.0
+offset_bottom = 31.0
+size_flags_stretch_ratio = 0.5
+text = "Challenge"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(0, 1)
+offset_top = 35.0
+offset_right = 1024.0
+offset_bottom = 36.0
+
+[connection signal="pressed" from="HBox/SendChallenge" to="." method="_on_send_challenge_pressed"]

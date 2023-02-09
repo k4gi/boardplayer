@@ -16,19 +16,17 @@ func _ready():
 
 func _on_peer_connected(id):
 	Global.player_names.append(id)
-	rpc("refresh_player_list", Global.player_names)
+	%Matching.refresh_player_list()
 
 
 func _on_peer_disconnected(id):
 	Global.player_names.erase(id)
-	rpc("refresh_player_list", Global.player_names)
+	%Matching.refresh_player_list()
 
 
-@rpc(any_peer)
-func create_game():
-	var remote_sender = multiplayer.get_remote_sender_id()
-	if Global.opponents.has(remote_sender):
-		rpc_id(Global.opponents[remote_sender], "create_game")
+@rpc
+func create_game(opponent_colour):
+	pass
 
 
 @rpc(any_peer)
@@ -38,10 +36,6 @@ func set_opponent_peer_id(id):
 		rpc_id(Global.opponents[remote_sender], "set_opponent_peer_id", id)
 
 
-@rpc
-func hello():
-	pass
-
-@rpc
-func refresh_player_list(player_names):
-	pass
+func _on_matching_create_game(challenger_id, challengee_id):
+	rpc_id(challenger_id, "create_game", "black")
+	rpc_id(challengee_id, "create_game", "white")

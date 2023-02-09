@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://baylpti05xolc"]
+
+[ext_resource type="Script" path="res://ChallengeEntry.gd" id="1_lqgkf"]
+
+[node name="ChallengeEntry" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_lqgkf")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_right = 1024.0
+offset_bottom = 512.0
+
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+offset_right = 1024.0
+offset_bottom = 26.0
+
+[node name="Label" type="Label" parent="VBox/HBox"]
+offset_right = 229.0
+offset_bottom = 26.0
+text = "You have been challenged by "
+
+[node name="ChallengerName" type="Label" parent="VBox/HBox"]
+offset_left = 233.0
+offset_right = 327.0
+offset_bottom = 26.0
+text = "blank_name"
+
+[node name="HBox2" type="HBoxContainer" parent="VBox"]
+offset_top = 30.0
+offset_right = 1024.0
+offset_bottom = 61.0
+
+[node name="AcceptChallenge" type="Button" parent="VBox/HBox2"]
+offset_right = 60.0
+offset_bottom = 31.0
+text = "Accept"
+
+[node name="DeclineChallenge" type="Button" parent="VBox/HBox2"]
+offset_left = 64.0
+offset_right = 130.0
+offset_bottom = 31.0
+text = "Decline"
+
+[connection signal="pressed" from="VBox/HBox2/AcceptChallenge" to="." method="_on_accept_challenge_pressed"]
+[connection signal="pressed" from="VBox/HBox2/DeclineChallenge" to="." method="_on_decline_challenge_pressed"]
