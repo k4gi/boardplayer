@@ -25,6 +25,7 @@ func _ready():
 func create_game(opponent_colour=null):
 	get_node("%MainMenu").set_visible(false)
 	%Chat/VBox/VBoxControls.set_visible(false)
+	%Matching.set_visible(false)
 	
 	CheckersGame = CHECKERS_GAME.instantiate()
 	CheckersGame.set_position(Vector2i(512,0))
@@ -140,4 +141,8 @@ func _on_online_game_pressed():
 	%MainMenu.set_visible(false)
 	%Matching.set_visible(true)
 
+
+@rpc
+func set_my_peer_id(id_number):
+	%Matching.my_peer_id = id_number
 

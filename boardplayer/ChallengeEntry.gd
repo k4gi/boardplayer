@@ -21,4 +21,5 @@ func _on_accept_challenge_pressed():
 
 
 func _on_decline_challenge_pressed():
+	print("decline challenge pressed")
 	emit_signal("decline_challange", challenger_id)

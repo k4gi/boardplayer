@@ -15,3 +15,6 @@ func set_player_name(player_name):
 func _on_send_challenge_pressed():
 	emit_signal("send_challenge", int($HBox/PlayerID.get_text()) )
 
+
+func disable_challenge_button():
+	$HBox/SendChallenge.set_disabled(true)

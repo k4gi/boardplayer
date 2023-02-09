@@ -15,11 +15,14 @@ func _ready():
 
 
 func _on_peer_connected(id):
+	print("%s connected" % id)
 	Global.player_names.append(id)
+	rpc_id(id, "set_my_peer_id", id)
 	%Matching.refresh_player_list()
 
 
 func _on_peer_disconnected(id):
+	print("%s disconnected" % id)
 	Global.player_names.erase(id)
 	%Matching.refresh_player_list()
 
@@ -39,3 +42,8 @@ func set_opponent_peer_id(id):
 func _on_matching_create_game(challenger_id, challengee_id):
 	rpc_id(challenger_id, "create_game", "black")
 	rpc_id(challengee_id, "create_game", "white")
+
+
+@rpc
+func set_my_peer_id(id):
+	pass

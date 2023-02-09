@@ -6,10 +6,12 @@ const CHALLENGE_ENTRY = preload("res://ChallengeEntry.tscn")
 
 
 var local_player_names = [] #local copy, downloaded from server
+var my_peer_id
 
 
 @rpc
 func refresh_player_list(player_names):
+	print("refreshing player list %s" % player_names)
 	for each_child in $Names/VBox.get_children():
 		$Names/VBox.remove_child(each_child)
 		each_child.queue_free()
@@ -17,7 +19,10 @@ func refresh_player_list(player_names):
 	for each_id in player_names:
 		var new_entry = PLAYER_LIST_ENTRY.instantiate()
 		new_entry.set_player_id(each_id)
-		new_entry.send_challenge.connect(send_challenge)
+		if each_id == my_peer_id:
+			new_entry.disable_challenge_button()
+		else:
+			new_entry.send_challenge.connect(send_challenge)
 		$Names/VBox.add_child(new_entry)
 
 
@@ -28,6 +33,7 @@ func send_challenge(id_number):
 
 @rpc
 func receive_challenge(challenger_id):
+	print("receiving challenge from %s" % challenger_id)
 	var new_entry = CHALLENGE_ENTRY.instantiate()
 	new_entry.set_challenger_id(challenger_id)
 	new_entry.accept_challange.connect(accept_challenge)
@@ -41,6 +47,7 @@ func accept_challenge(challenger_id):
 
 
 func decline_challenge(challenger_id):
+	print("declining challenge")
 	for each_child in $Challenges/VBox.get_children():
 		if each_child.challenger_id == challenger_id:
 			$Challenges/VBox.remove_child(each_child)

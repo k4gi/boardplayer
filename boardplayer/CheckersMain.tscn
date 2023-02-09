@@ -17,7 +17,6 @@ theme = ExtResource("3_183qv")
 metadata/_edit_use_anchors_ = true
 
 [node name="VBoxUI" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
 offset_left = 16.0
 offset_top = 16.0
 offset_right = 1008.0
@@ -25,21 +24,18 @@ offset_bottom = 496.0
 
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
-layout_mode = 2
 offset_right = 992.0
 offset_bottom = 433.0
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu"]
-layout_mode = 2
 offset_right = 992.0
 offset_bottom = 68.0
 text = "Welcome to Checkers!"
 horizontal_alignment = 1
 
 [node name="LocalGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
-layout_mode = 2
 offset_left = 389.0
 offset_top = 78.0
 offset_right = 603.0
@@ -49,13 +45,11 @@ text = "Local Game"
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
 custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
 offset_top = 161.0
 offset_right = 992.0
 offset_bottom = 162.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
-layout_mode = 2
 offset_left = 285.0
 offset_top = 172.0
 offset_right = 707.0
@@ -63,7 +57,6 @@ offset_bottom = 245.0
 size_flags_horizontal = 4
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
-layout_mode = 2
 offset_top = 2.0
 offset_right = 95.0
 offset_bottom = 70.0
@@ -71,14 +64,12 @@ text = "Port:"
 
 [node name="HostPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
 unique_name_in_owner = true
-layout_mode = 2
 offset_left = 99.0
 offset_right = 215.0
 offset_bottom = 73.0
 size_flags_horizontal = 3
 
 [node name="HostGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
-layout_mode = 2
 offset_left = 219.0
 offset_right = 422.0
 offset_bottom = 73.0
@@ -86,19 +77,16 @@ text = "Host Game"
 
 [node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
 custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
 offset_top = 255.0
 offset_right = 992.0
 offset_bottom = 256.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
-layout_mode = 2
 offset_top = 266.0
 offset_right = 992.0
 offset_bottom = 339.0
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
-layout_mode = 2
 offset_top = 2.0
 offset_right = 206.0
 offset_bottom = 70.0
@@ -106,7 +94,6 @@ text = "IP address:"
 
 [node name="IPAddressEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
 unique_name_in_owner = true
-layout_mode = 2
 offset_left = 210.0
 offset_right = 531.0
 offset_bottom = 73.0
@@ -114,7 +101,6 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
-layout_mode = 2
 offset_left = 535.0
 offset_top = 2.0
 offset_right = 630.0
@@ -123,14 +109,12 @@ text = "Port:"
 
 [node name="IPPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
 unique_name_in_owner = true
-layout_mode = 2
 offset_left = 634.0
 offset_right = 795.0
 offset_bottom = 73.0
 size_flags_horizontal = 3
 
 [node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
-layout_mode = 2
 offset_left = 799.0
 offset_right = 992.0
 offset_bottom = 73.0
@@ -138,13 +122,11 @@ text = "Join Game"
 
 [node name="ColorRect3" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
 custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
 offset_top = 349.0
 offset_right = 992.0
 offset_bottom = 350.0
 
 [node name="OnlineGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
-layout_mode = 2
 offset_left = 383.0
 offset_top = 360.0
 offset_right = 608.0
@@ -155,128 +137,104 @@ text = "Online Game"
 [node name="TurnDisplay" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 0
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
-layout_mode = 2
 text = "White"
 uppercase = true
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
-layout_mode = 2
 text = "'s turn"
 
 [node name="WinResult" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 0
 
 [node name="Winner" type="HBoxContainer" parent="MarginContainer/VBoxUI/WinResult"]
-layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/WinResult/Winner"]
-layout_mode = 2
 size_flags_horizontal = 3
 text = "no-one"
 horizontal_alignment = 2
 uppercase = true
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxUI/WinResult/Winner"]
-layout_mode = 2
 size_flags_horizontal = 3
 text = " wins!"
 
 [node name="Score" type="HBoxContainer" parent="MarginContainer/VBoxUI/WinResult"]
-layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
-layout_mode = 2
 theme_override_font_sizes/font_size = 52
 text = "with"
 
 [node name="Out" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
-layout_mode = 2
 theme_override_font_sizes/font_size = 52
 text = "12"
 
 [node name="Label3" type="Label" parent="MarginContainer/VBoxUI/WinResult/Score"]
-layout_mode = 2
 theme_override_font_sizes/font_size = 52
 text = "pieces"
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxUI/WinResult"]
-layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 52
 text = "remaining"
 
 [node name="PlayAgain" type="Button" parent="MarginContainer/VBoxUI/WinResult"]
-layout_mode = 2
 size_flags_horizontal = 4
 text = "Play again"
 
 [node name="Chat" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("4_4to8l")
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat"]
-layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="VBoxControls" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
-layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="StartMultiGame" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
-layout_mode = 2
 disabled = true
 text = "Play the game"
 
 [node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxControls"]
-layout_mode = 2
 toggle_mode = true
 text = "Ready"
 
 [node name="VBoxMPStatus" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
-layout_mode = 2
 size_flags_vertical = 3
 
 [node name="HBoxChatEntry" type="HBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus"]
-layout_mode = 2
 size_flags_vertical = 10
 
 [node name="ChatEntry" type="LineEdit" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
-layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ChatSend" type="Button" parent="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry"]
-layout_mode = 2
 text = "send"
 
 [node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBoxUI/Chat/VBox"]
-layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
 [node name="VBoxChat" type="VBoxContainer" parent="MarginContainer/VBoxUI/Chat/VBox/Scroll"]
-layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/Chat"]
-layout_mode = 2
+layout_mode = 3
 anchors_preset = 0
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -284,27 +242,22 @@ mouse_filter = 2
 [node name="Matching" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 2
 offset_right = 992.0
 size_flags_vertical = 3
 script = ExtResource("5_2igk7")
 
 [node name="Names" type="ScrollContainer" parent="MarginContainer/VBoxUI/Matching"]
-layout_mode = 2
 offset_right = 494.0
 size_flags_horizontal = 3
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching/Names"]
-layout_mode = 2
 
 [node name="Challenges" type="ScrollContainer" parent="MarginContainer/VBoxUI/Matching"]
-layout_mode = 2
 offset_left = 498.0
 offset_right = 992.0
 size_flags_horizontal = 3
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching/Challenges"]
-layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
