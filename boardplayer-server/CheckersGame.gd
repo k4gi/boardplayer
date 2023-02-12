@@ -1,6 +1,16 @@
 extends Node
 
 
+var piece_array = []
+
+var score = {
+	"white": 12,
+	"black": 12,
+}
+
+var turn = "white"
+
+
 @rpc(any_peer)
 func remote_control_piece(pos):
 	var remote_sender = multiplayer.get_remote_sender_id()
