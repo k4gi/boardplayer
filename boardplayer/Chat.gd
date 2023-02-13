@@ -8,7 +8,7 @@ func _ready():
 	$VBox/Scroll.get_v_scroll_bar().changed.connect(_on_scrollbar_changed)
 
 
-@rpc(any_peer)
+@rpc("any_peer")
 func add_message(message: String):
 	var new_label = Label.new()
 	var remote_sender = multiplayer.get_remote_sender_id()
@@ -38,7 +38,7 @@ func send_chat_message(message: String):
 	$VBox/VBoxMPStatus/HBoxChatEntry/ChatEntry.clear()
 
 
-@rpc(any_peer)
+@rpc("any_peer")
 func _on_ready_button_toggled(button_pressed):
 	var remote_sender = multiplayer.get_remote_sender_id()
 	var unique_id = multiplayer.get_unique_id()

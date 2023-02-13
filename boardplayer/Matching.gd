@@ -26,7 +26,7 @@ func refresh_player_list(player_names):
 		$Names/VBox.add_child(new_entry)
 
 
-@rpc(any_peer)
+@rpc("any_peer")
 func send_challenge(id_number):
 	rpc_id(1, "send_challenge", id_number)
 

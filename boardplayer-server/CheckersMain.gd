@@ -32,7 +32,7 @@ func create_game(opponent_colour):
 	pass
 
 
-@rpc(any_peer)
+@rpc("any_peer")
 func set_opponent_peer_id(id):
 	var remote_sender = multiplayer.get_remote_sender_id()
 	if Global.opponents.has(remote_sender):
