@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://conrwllkq6r0x"]
+
+[ext_resource type="Script" path="res://CheckersPiece.gd" id="1_aiv1o"]
+
+[node name="CheckersPiece" type="Node"]
+script = ExtResource("1_aiv1o")

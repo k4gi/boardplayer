@@ -1,14 +1,6 @@
 extends Node
 
 
-var piece_array = []
-
-var score = {
-	"white": 12,
-	"black": 12,
-}
-
-var turn = "white"
 
 
 @rpc(any_peer)
