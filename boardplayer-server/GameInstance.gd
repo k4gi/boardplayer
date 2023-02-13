@@ -17,6 +17,8 @@ var score = {
 
 var turn = "white"
 
+var client_peer_ids = []
+
 
 func start_game():
 	#build piece_array and board_array
@@ -41,6 +43,9 @@ func start_game():
 		for x in range(8):
 			if board_array[x][last_three] == TILE_RED:
 				spawn_piece(x, last_three, "up", "black")
+	
+	# functions to communicate game state to clients
+	# what do the clients look like? i haven't made them yet have i
 
 
 func spawn_piece(x, y, facing, colour):
