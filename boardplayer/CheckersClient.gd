@@ -1,6 +1,10 @@
 extends Node2D
 
 
+signal turn_toggled( turn )
+signal game_won( score )
+
+
 const WHITE_PIECE = preload("res://WhitePiece.tres")
 const BLACK_PIECE = preload("res://BlackPiece.tres")
 const WHITE_KING = preload("res://WhiteKing.tres")
