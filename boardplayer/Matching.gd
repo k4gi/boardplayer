@@ -9,7 +9,7 @@ var local_player_names = [] #local copy, downloaded from server
 var my_peer_id
 
 
-@rpc
+@rpc("reliable")
 func refresh_player_list(player_names):
 	print("refreshing player list %s" % player_names)
 	for each_child in $Names/VBox.get_children():
@@ -26,12 +26,12 @@ func refresh_player_list(player_names):
 		$Names/VBox.add_child(new_entry)
 
 
-@rpc("any_peer")
+@rpc("any_peer", "reliable")
 func send_challenge(id_number):
 	rpc_id(1, "send_challenge", id_number)
 
 
-@rpc
+@rpc("reliable")
 func receive_challenge(challenger_id):
 	print("receiving challenge from %s" % challenger_id)
 	var new_entry = CHALLENGE_ENTRY.instantiate()
@@ -41,7 +41,7 @@ func receive_challenge(challenger_id):
 	$Challenges/VBox.add_child(new_entry)
 
 
-@rpc
+@rpc("reliable")
 func accept_challenge(challenger_id):
 	rpc_id(1, "accept_challenge", challenger_id)
 

@@ -90,7 +90,7 @@ func _process(_delta):
 		rpc("remote_control_piece", get_global_mouse_position() + carried_piece.get("grab_position") )
 
 
-@rpc("any_peer")
+@rpc("any_peer", "unreliable_ordered")
 func remote_control_piece(pos):
 	if carried_piece != null and not in_control_of_piece:
 		carried_piece.set_global_position( pos )
@@ -110,7 +110,7 @@ func _on_checkers_piece_pickup_piece(piece):
 	place_move_highlights(carried_piece.get_position())
 
 
-@rpc("any_peer")
+@rpc("any_peer", "reliable")
 func remote_pickup_piece(coords: Vector2i, grab_position: Vector2):
 	carried_piece = piece_array[coords.x][coords.y]
 	carried_piece.grab_position = grab_position
@@ -186,7 +186,7 @@ func _on_move_highlight_move_here(highlight):
 			spawn_highlight( highlight_pos, null)
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func move_without_taking_piece(piece_in_array: Vector2i, highlight_pos):
 	toggle_turn()
 	move_piece_in_array(piece_in_array, highlight_pos)
@@ -194,14 +194,14 @@ func move_without_taking_piece(piece_in_array: Vector2i, highlight_pos):
 	set_all_pieces_pickable(true, turn)
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func move_with_taking_piece(piece_in_array: Vector2i, highlight_pos, taking_piece_position, taking_piece_allegiance):
 	delete_piece(taking_piece_position)
 	move_piece_in_array(piece_in_array, highlight_pos)
 	subtract_score(taking_piece_allegiance)
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func finish_taking_pieces(highlight_pos):
 	toggle_turn()
 	put_piece_back_down(highlight_pos)
@@ -255,7 +255,7 @@ func check_becoming_king( map_pos ):
 			carried_piece.set_texture( BLACK_KING )
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func put_piece_back_down( highlight_pos ):
 	carried_piece.set_position( highlight_pos )
 	carried_piece.set_z_index(0)

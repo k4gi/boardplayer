@@ -27,12 +27,12 @@ func _on_peer_disconnected(id):
 	%Matching.refresh_player_list()
 
 
-@rpc
-func create_game(opponent_colour):
+@rpc("reliable")
+func create_internet_game(opponent_colour):
 	pass
 
 
-@rpc("any_peer")
+@rpc("any_peer", "reliable")
 func set_opponent_peer_id(id):
 	var remote_sender = multiplayer.get_remote_sender_id()
 	if Global.opponents.has(remote_sender):
@@ -40,10 +40,10 @@ func set_opponent_peer_id(id):
 
 
 func _on_matching_create_game(challenger_id, challengee_id):
-	rpc_id(challenger_id, "create_game", "black")
-	rpc_id(challengee_id, "create_game", "white")
+	rpc_id(challenger_id, "create_internet_game", "black")
+	rpc_id(challengee_id, "create_internet_game", "white")
 
 
-@rpc
+@rpc("reliable")
 func set_my_peer_id(id):
 	pass

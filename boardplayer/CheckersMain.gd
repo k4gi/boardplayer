@@ -2,6 +2,7 @@ extends Node2D
 
 
 const CHECKERS_GAME = preload("res://CheckersGame.tscn")
+const CHECKERS_CLIENT = preload("res://CheckersClient.tscn")
 
 
 var network_address = "localhost"
@@ -21,34 +22,58 @@ func _ready():
 	%IPPortEntry.set_text( str(network_port) )
 	%HostPortEntry.set_text( str(network_port) )
 
-@rpc
-func create_game(opponent_colour=null):
-	get_node("%MainMenu").set_visible(false)
+
+func create_single_game():
+	%MainMenu.set_visible(false)
 	%Chat/VBox/VBoxControls.set_visible(false)
 	%Matching.set_visible(false)
+	%TurnDisplay.set_visible(true)
 	
 	CheckersGame = CHECKERS_GAME.instantiate()
 	CheckersGame.set_position(Vector2i(512,0))
 	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
 	CheckersGame.game_won.connect(_on_checkers_game_game_won)
 	
-	if opponent_peer_id != null: #we're doing network multiplayer
-		var remote_sender = multiplayer.get_remote_sender_id()
-		if remote_sender == 0: #i must therefore be the host
-			CheckersGame.i_can_move.erase("black")
-		else:
-			CheckersGame.i_can_move.erase("white")
-	if multiplayer.get_remote_sender_id() == 1:
-		#if we're receiving this function call from the host
-		#but opponent_peer_id hasn't been set yet
-		#we must be playing an internet game!
-		#i love silly logic
-		CheckersGame.i_can_move.erase(opponent_colour)
-		%Chat.set_visible(true)
+	add_child(CheckersGame)
+
+
+@rpc("reliable")
+func create_local_game():
+	%MainMenu.set_visible(false)
+	%Chat/VBox/VBoxControls.set_visible(false)
+	%Chat.set_visible(true)
+	%Matching.set_visible(false)
+	%TurnDisplay.set_visible(true)
+	
+	CheckersGame = CHECKERS_GAME.instantiate()
+	CheckersGame.set_position(Vector2i(512,0))
+	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
+	CheckersGame.game_won.connect(_on_checkers_game_game_won)
+	
+	var remote_sender = multiplayer.get_remote_sender_id()
+	if remote_sender == 0: #i must therefore be the host
+		CheckersGame.i_can_move.erase("black")
+	else:
+		CheckersGame.i_can_move.erase("white")
 	
 	add_child(CheckersGame)
+
+
+@rpc("reliable")
+func create_internet_game(opponent_colour=null):
+	%MainMenu.set_visible(false)
+	%Chat/VBox/VBoxControls.set_visible(false)
+	%Chat.set_visible(true)
+	%Matching.set_visible(false)
+	%TurnDisplay.set_visible(true)
 	
-	get_node("%TurnDisplay").set_visible(true)
+	CheckersGame = CHECKERS_CLIENT.instantiate()
+	CheckersGame.set_position(Vector2i(512,0))
+	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
+	CheckersGame.game_won.connect(_on_checkers_game_game_won)
+	CheckersGame.i_can_move.erase(opponent_colour)
+	
+	add_child(CheckersGame)
 
 
 func _on_checkers_game_turn_toggled(turn):
@@ -68,7 +93,7 @@ func _on_play_again_pressed():
 
 
 func _on_local_game_pressed():
-	create_game()
+	create_single_game()
 
 
 func _on_host_game_pressed():
@@ -92,7 +117,7 @@ func _on_peer_connected(id):
 	rpc("set_opponent_peer_id", multiplayer.get_multiplayer_peer()) #should be 1? cause we're the host?
 
 
-@rpc
+@rpc("reliable")
 func set_opponent_peer_id(id):
 	opponent_peer_id = id
 
@@ -127,7 +152,7 @@ func _on_join_game_pressed():
 
 
 func _on_start_multi_game_pressed():
-	create_game()
+	create_internet_game()
 	rpc("create_game")
 
 
@@ -142,7 +167,7 @@ func _on_online_game_pressed():
 	%Matching.set_visible(true)
 
 
-@rpc
+@rpc("reliable")
 func set_my_peer_id(id_number):
 	%Matching.my_peer_id = id_number
 
