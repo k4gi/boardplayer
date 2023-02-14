@@ -16,6 +16,9 @@ const CHECKERS_PIECE = preload("res://CheckersPiece.tscn")
 const MOVE_HIGHLIGHT = preload("res://MoveHighlight.tscn")
 
 
+var i_can_move = ["white", "black"]
+
+
 @rpc("reliable")
 func sync_board(server_piece_array):
 	#why not, just wipe the board every time
@@ -57,7 +60,8 @@ func sync_board(server_piece_array):
 
 
 func _on_checkers_piece_pickup_piece(piece):
-	rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))
+	if i_can_move.has( piece.get("allegiance") ):
+		rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))
 
 
 @rpc("any_peer", "reliable")

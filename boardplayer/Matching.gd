@@ -6,12 +6,12 @@ const CHALLENGE_ENTRY = preload("res://ChallengeEntry.tscn")
 
 
 var local_player_names = [] #local copy, downloaded from server
-var my_peer_id
 
 
 @rpc("reliable")
 func refresh_player_list(player_names):
-	print("refreshing player list %s" % player_names)
+	print("refreshing player list")
+	print(player_names)
 	for each_child in $Names/VBox.get_children():
 		$Names/VBox.remove_child(each_child)
 		each_child.queue_free()
@@ -19,7 +19,7 @@ func refresh_player_list(player_names):
 	for each_id in player_names:
 		var new_entry = PLAYER_LIST_ENTRY.instantiate()
 		new_entry.set_player_id(each_id)
-		if each_id == my_peer_id:
+		if each_id == multiplayer.get_unique_id():
 			new_entry.disable_challenge_button()
 		else:
 			new_entry.send_challenge.connect(send_challenge)

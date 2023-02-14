@@ -167,7 +167,4 @@ func _on_online_game_pressed():
 	%Matching.set_visible(true)
 
 
-@rpc("reliable")
-func set_my_peer_id(id_number):
-	%Matching.my_peer_id = id_number
 
