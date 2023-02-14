@@ -28,6 +28,7 @@ func sync_board(server_piece_array):
 		while y < 8:
 			if server_piece_array[x][y] != null:
 				var new_piece = CHECKERS_PIECE.instantiate()
+				new_piece.pickup_piece.connect(_on_checkers_piece_pickup_piece)
 				new_piece.set_position($Board.map_to_local(Vector2i(x,y)))
 				for each_direction in server_piece_array[x][y].get("can_move"):
 					new_piece.get("can_move").append(each_direction)
@@ -50,3 +51,11 @@ func sync_board(server_piece_array):
 			y += 1
 		x += 1
 
+
+func _on_checkers_piece_pickup_piece(piece):
+	rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))
+
+
+@rpc("any_peer", "reliable")
+func pickup_piece(piece_pos: Vector2i):
+	pass

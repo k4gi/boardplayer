@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://CheckersMain.gd" id="1_7vxvn"]
 [ext_resource type="Script" path="res://Chat.gd" id="2_m7fev"]
-[ext_resource type="Script" path="res://CheckersGame.gd" id="3_2x33v"]
 [ext_resource type="Script" path="res://Matching.gd" id="3_4k71b"]
+[ext_resource type="Script" path="res://CheckersClient.gd" id="4_dsir7"]
 
 [node name="CheckersMain" type="Node"]
 script = ExtResource("1_7vxvn")
@@ -20,8 +20,8 @@ script = ExtResource("2_m7fev")
 unique_name_in_owner = true
 script = ExtResource("3_4k71b")
 
-[node name="CheckersGame" type="Node" parent="."]
+[node name="CheckersClient" type="Node" parent="."]
 unique_name_in_owner = true
-script = ExtResource("3_2x33v")
+script = ExtResource("4_dsir7")
 
 [connection signal="create_game" from="MarginContainer/VBoxUI/Matching" to="." method="_on_matching_create_game"]
