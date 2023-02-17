@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjttjy0u4cf8d"]
+[gd_scene load_steps=6 format=3 uid="uid://cjttjy0u4cf8d"]
 
 [ext_resource type="Script" path="res://CheckersMain.gd" id="1_7vxvn"]
 [ext_resource type="Script" path="res://Chat.gd" id="2_m7fev"]
 [ext_resource type="Script" path="res://Matching.gd" id="3_4k71b"]
 [ext_resource type="Script" path="res://CheckersClient.gd" id="4_dsir7"]
+[ext_resource type="Script" path="res://OnlineReady.gd" id="4_jup40"]
 
 [node name="CheckersMain" type="Node"]
 script = ExtResource("1_7vxvn")
@@ -19,6 +20,9 @@ script = ExtResource("2_m7fev")
 [node name="Matching" type="Node" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 script = ExtResource("3_4k71b")
+
+[node name="OnlineReady" type="Node" parent="MarginContainer/VBoxUI"]
+script = ExtResource("4_jup40")
 
 [node name="CheckersClient" type="Node" parent="."]
 unique_name_in_owner = true
