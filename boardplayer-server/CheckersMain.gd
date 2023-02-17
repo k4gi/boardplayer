@@ -28,7 +28,7 @@ func _on_peer_disconnected(id):
 
 @rpc("reliable")
 func create_internet_game(opponent_colour):
-	pass
+	pass #dummy
 
 
 @rpc("any_peer", "reliable")

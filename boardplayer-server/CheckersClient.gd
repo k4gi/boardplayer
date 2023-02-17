@@ -34,3 +34,13 @@ func sync_board_with(client_peer_ids, server_piece_array):
 @rpc("reliable")
 func sync_board(server_piece_array):
 	pass #dummy
+
+
+#crossways signal connection! object orientation be damned!
+
+func _on_online_ready_ready_pressed(button_pressed, remote_sender):
+	pass # Replace with function body.
+
+
+func _on_online_ready_start_pressed(remote_sender):
+	pass # Replace with function body.

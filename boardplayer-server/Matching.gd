@@ -12,7 +12,7 @@ func refresh_player_list(player_names=null):
 
 @rpc("reliable")
 func receive_challenge(id_number):
-	pass
+	pass #dummy
 
 
 @rpc("any_peer", "reliable")

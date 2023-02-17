@@ -30,3 +30,5 @@ unique_name_in_owner = true
 script = ExtResource("4_dsir7")
 
 [connection signal="create_game" from="MarginContainer/VBoxUI/Matching" to="." method="_on_matching_create_game"]
+[connection signal="ready_pressed" from="MarginContainer/VBoxUI/OnlineReady" to="CheckersClient" method="_on_online_ready_ready_pressed"]
+[connection signal="start_pressed" from="MarginContainer/VBoxUI/OnlineReady" to="CheckersClient" method="_on_online_ready_start_pressed"]
