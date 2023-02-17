@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkhy1km40x481"]
+[gd_scene load_steps=7 format=3 uid="uid://dkhy1km40x481"]
 
 [ext_resource type="Script" path="res://CheckersMain.gd" id="1_farx3"]
 [ext_resource type="Theme" uid="uid://d2vr315te7cd8" path="res://DefaultTheme.tres" id="3_183qv"]
 [ext_resource type="Theme" uid="uid://tvwj3tis3sd3" path="res://BigTextTheme.tres" id="3_cfsq8"]
 [ext_resource type="Script" path="res://Chat.gd" id="4_4to8l"]
 [ext_resource type="Script" path="res://Matching.gd" id="5_2igk7"]
+[ext_resource type="Script" path="res://OnlineReady.gd" id="6_8trr2"]
 
 [node name="CheckersMain" type="Node2D"]
 script = ExtResource("1_farx3")
@@ -21,6 +22,7 @@ layout_mode = 2
 
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 10
@@ -244,6 +246,31 @@ size_flags_horizontal = 3
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/Matching/Challenges"]
 layout_mode = 2
 
+[node name="OnlineReady" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
+layout_mode = 2
+script = ExtResource("6_8trr2")
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/OnlineReady"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxReady" type="HBoxContainer" parent="MarginContainer/VBoxUI/OnlineReady/VBox"]
+layout_mode = 2
+
+[node name="ReadyButton" type="Button" parent="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+
+[node name="StartGame" type="Button" parent="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/OnlineReady"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer2/JoinGame" to="." method="_on_join_game_pressed"]
@@ -253,3 +280,5 @@ layout_mode = 2
 [connection signal="toggled" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]
 [connection signal="text_submitted" from="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry/ChatEntry" to="MarginContainer/VBoxUI/Chat" method="_on_chat_entry_text_submitted"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxMPStatus/HBoxChatEntry/ChatSend" to="MarginContainer/VBoxUI/Chat" method="_on_chat_send_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady/ReadyButton" to="MarginContainer/VBoxUI/OnlineReady" method="_on_ready_button_toggled"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady/StartGame" to="MarginContainer/VBoxUI/OnlineReady" method="_on_start_game_pressed"]
