@@ -247,6 +247,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 
 [node name="OnlineReady" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
+unique_name_in_owner = true
 layout_mode = 2
 script = ExtResource("6_8trr2")
 

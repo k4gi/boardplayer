@@ -22,6 +22,7 @@ unique_name_in_owner = true
 script = ExtResource("3_4k71b")
 
 [node name="OnlineReady" type="Node" parent="MarginContainer/VBoxUI"]
+unique_name_in_owner = true
 script = ExtResource("4_jup40")
 
 [node name="CheckersClient" type="Node" parent="."]
