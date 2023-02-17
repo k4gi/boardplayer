@@ -13,6 +13,8 @@ func create_new_game(white_peer_id, black_peer_id):
 	new_instance.client_peer_ids["white"] = white_peer_id
 	new_instance.client_peer_ids["black"] = black_peer_id
 	
+	new_instance.start_game()
+	
 	game_instance_index[white_peer_id] = new_instance
 	game_instance_index[black_peer_id] = new_instance
 	

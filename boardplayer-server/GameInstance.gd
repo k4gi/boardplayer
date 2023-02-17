@@ -19,6 +19,8 @@ var turn = "white"
 
 var client_peer_ids = {}
 
+var clients_ready = [false, false]
+
 
 func start_game():
 	#build piece_array and board_array

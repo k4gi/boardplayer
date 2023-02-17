@@ -168,3 +168,7 @@ func _on_online_game_pressed():
 
 
 
+
+
+func _on_ready_button_toggled(button_pressed):
+	pass # Replace with function body.
