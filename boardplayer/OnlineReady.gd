@@ -30,3 +30,7 @@ func ready_button_received():
 	ReadyButton.set_disabled(false)
 
 
+@rpc("reliable")
+func start_button_disable(boolean: bool):
+	StartGame.set_disabled(boolean)
+

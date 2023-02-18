@@ -19,10 +19,20 @@ var turn = "white"
 
 var client_peer_ids = {}
 
-var clients_ready = [false, false]
+var clients_ready = {"white": false, "black": false}
+
+
+func set_ready(button_pressed, remote_sender):
+	clients_ready[ client_peer_ids.find_key(remote_sender) ] = button_pressed
+	if clients_ready["white"] and clients_ready["black"]:
+		%OnlineReady.start_button_for_players(client_peer_ids, false) #enable button
+	else:
+		%OnlineReady.start_button_for_players(client_peer_ids, true) #disable button
 
 
 func start_game():
+	%OnlineReady.hide_for_players(client_peer_ids)
+	
 	#build piece_array and board_array
 	var tile_toggle_red = false
 	

@@ -22,7 +22,6 @@ layout_mode = 2
 
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 10
@@ -248,6 +247,7 @@ layout_mode = 2
 
 [node name="OnlineReady" type="HBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 script = ExtResource("6_8trr2")
 
@@ -262,10 +262,12 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 toggle_mode = true
+text = "Ready"
 
 [node name="StartGame" type="Button" parent="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "Start Game"
 
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/OnlineReady"]
 layout_mode = 2

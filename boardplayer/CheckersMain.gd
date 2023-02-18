@@ -66,6 +66,7 @@ func create_internet_game(opponent_colour=null):
 	%Chat.set_visible(true)
 	%Matching.set_visible(false)
 	%TurnDisplay.set_visible(true)
+	%OnlineReady.set_visible(true)
 	
 	CheckersGame = CHECKERS_CLIENT.instantiate()
 	CheckersGame.set_position(Vector2i(512,0))
@@ -152,8 +153,8 @@ func _on_join_game_pressed():
 
 
 func _on_start_multi_game_pressed():
-	create_internet_game()
-	rpc("create_game")
+	create_local_game()
+	rpc("create_local_game")
 
 
 func _on_online_game_pressed():
