@@ -6,6 +6,7 @@ extends HBoxContainer
 
 
 func _on_ready_button_toggled(button_pressed):
+	print("ready_button_toggled")
 	ReadyButton.set_disabled(true)
 	rpc_id(1, "ready_button_pressed", button_pressed)
 

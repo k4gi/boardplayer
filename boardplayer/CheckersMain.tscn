@@ -267,6 +267,7 @@ text = "Ready"
 [node name="StartGame" type="Button" parent="MarginContainer/VBoxUI/OnlineReady/VBox/HBoxReady"]
 layout_mode = 2
 size_flags_horizontal = 3
+disabled = true
 text = "Start Game"
 
 [node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/OnlineReady"]
