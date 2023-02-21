@@ -7,8 +7,8 @@ extends HBoxContainer
 
 func _on_ready_button_toggled(button_pressed):
 	print("ready_button_toggled")
-	ReadyButton.set_disabled(true)
-	rpc_id(1, "ready_button_pressed", button_pressed)
+	#ReadyButton.set_disabled(true)
+	rpc("ready_button_pressed", button_pressed)
 
 
 func _on_start_game_pressed():
@@ -35,3 +35,7 @@ func ready_button_received():
 func start_button_disable(boolean: bool):
 	StartGame.set_disabled(boolean)
 
+
+@rpc("reliable")
+func hide_online_ready():
+	pass #temp

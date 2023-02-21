@@ -27,7 +27,7 @@ func _on_peer_disconnected(id):
 
 
 @rpc("reliable")
-func create_internet_game(opponent_colour):
+func create_internet_game(opponent_colour=null):
 	pass #dummy
 
 
@@ -41,5 +41,6 @@ func set_opponent_peer_id(id):
 func _on_matching_create_game(challenger_id, challengee_id):
 	rpc_id(challenger_id, "create_internet_game", "black")
 	rpc_id(challengee_id, "create_internet_game", "white")
+
 
 

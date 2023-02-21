@@ -168,8 +168,3 @@ func _on_online_game_pressed():
 	%Matching.set_visible(true)
 
 
-
-
-
-func _on_ready_button_toggled(button_pressed):
-	pass # Replace with function body.
