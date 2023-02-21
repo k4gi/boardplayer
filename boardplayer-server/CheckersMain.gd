@@ -41,6 +41,7 @@ func set_opponent_peer_id(id):
 func _on_matching_create_game(challenger_id, challengee_id):
 	rpc_id(challenger_id, "create_internet_game", "black")
 	rpc_id(challengee_id, "create_internet_game", "white")
+	%CheckersClient.create_new_game(challenger_id, challengee_id)
 
 
 
