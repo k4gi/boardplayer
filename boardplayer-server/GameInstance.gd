@@ -5,10 +5,9 @@ signal start_button_for_players(client_peer_ids, is_disabled)
 signal hide_online_ready_for_players(client_peer_ids)
 
 
-const CHECKERS_PIECE = preload("res://CheckersPiece.tscn")
-
 const TILE_BEIGE = Vector2i(0,0)
 const TILE_RED = Vector2i(1,0)
+
 
 var board_array = []
 
@@ -64,8 +63,9 @@ func start_game():
 
 
 func spawn_piece(x, y, facing, colour):
-	var new_piece = CHECKERS_PIECE.instantiate()
-	new_piece.get("can_move").append(facing)
-	new_piece.set("allegience", colour)
+	var new_piece = {}
+	new_piece["can_move"] = []
+	new_piece["can_move"].append(facing)
+	new_piece["allegiance"] = colour
 	piece_array[x][y] = new_piece
 

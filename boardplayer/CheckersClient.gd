@@ -42,9 +42,9 @@ func sync_board(server_piece_array):
 				var new_piece = CHECKERS_PIECE.instantiate()
 				new_piece.pickup_piece.connect(_on_checkers_piece_pickup_piece)
 				new_piece.set_position($Board.map_to_local(Vector2i(x,y)))
-				for each_direction in server_piece_array[x][y].get("can_move"):
+				for each_direction in server_piece_array[x][y]["can_move"]:
 					new_piece.get("can_move").append(each_direction)
-				new_piece.set("allegiance", server_piece_array[x][y].get("allegiance") )
+				new_piece.set("allegiance", server_piece_array[x][y]["allegiance"] )
 				match( new_piece.get("allegiance") ):
 					"white":
 						if new_piece.get("can_move").size() == 1:
