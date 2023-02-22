@@ -10,16 +10,16 @@ func refresh_player_list(player_names=null):
 	rpc("refresh_player_list", Global.player_names)
 
 
-@rpc("reliable")
-func receive_challenge(id_number):
-	pass #dummy
-
-
 @rpc("any_peer", "reliable")
 func send_challenge(id_number):
 	var remote_sender = multiplayer.get_remote_sender_id()
 	print("sending challenge from %s to %s" % [remote_sender, id_number])
 	rpc_id(id_number, "receive_challenge", remote_sender)
+
+
+@rpc("reliable")
+func receive_challenge(id_number):
+	pass #dummy
 
 
 @rpc("any_peer", "reliable")

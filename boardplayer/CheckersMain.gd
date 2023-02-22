@@ -17,26 +17,6 @@ var opponent_peer_id = null
 var CheckersGame = null
 
 
-func _ready():
-	%IPAddressEntry.set_text( str(network_address) )
-	%IPPortEntry.set_text( str(network_port) )
-	%HostPortEntry.set_text( str(network_port) )
-
-
-func create_single_game():
-	%MainMenu.set_visible(false)
-	%Chat/VBox/VBoxControls.set_visible(false)
-	%Matching.set_visible(false)
-	%TurnDisplay.set_visible(true)
-	
-	CheckersGame = CHECKERS_GAME.instantiate()
-	CheckersGame.set_position(Vector2i(512,0))
-	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
-	CheckersGame.game_won.connect(_on_checkers_game_game_won)
-	
-	add_child(CheckersGame)
-
-
 @rpc("reliable")
 func create_local_game():
 	%MainMenu.set_visible(false)
@@ -73,6 +53,31 @@ func create_internet_game(opponent_colour=null):
 	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
 	CheckersGame.game_won.connect(_on_checkers_game_game_won)
 	CheckersGame.i_can_move.erase(opponent_colour)
+	
+	add_child(CheckersGame)
+
+
+@rpc("reliable")
+func set_opponent_peer_id(id):
+	opponent_peer_id = id
+
+
+func _ready():
+	%IPAddressEntry.set_text( str(network_address) )
+	%IPPortEntry.set_text( str(network_port) )
+	%HostPortEntry.set_text( str(network_port) )
+
+
+func create_single_game():
+	%MainMenu.set_visible(false)
+	%Chat/VBox/VBoxControls.set_visible(false)
+	%Matching.set_visible(false)
+	%TurnDisplay.set_visible(true)
+	
+	CheckersGame = CHECKERS_GAME.instantiate()
+	CheckersGame.set_position(Vector2i(512,0))
+	CheckersGame.turn_toggled.connect(_on_checkers_game_turn_toggled)
+	CheckersGame.game_won.connect(_on_checkers_game_game_won)
 	
 	add_child(CheckersGame)
 
@@ -116,11 +121,6 @@ func _on_host_game_pressed():
 func _on_peer_connected(id):
 	opponent_peer_id = id
 	rpc("set_opponent_peer_id", multiplayer.get_multiplayer_peer()) #should be 1? cause we're the host?
-
-
-@rpc("reliable")
-func set_opponent_peer_id(id):
-	opponent_peer_id = id
 
 
 func _on_peer_disconnected(id):

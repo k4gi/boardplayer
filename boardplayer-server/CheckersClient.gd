@@ -7,6 +7,16 @@ const GAME_INSTANCE = preload("res://GameInstance.tscn")
 var game_instance_index = {}
 
 
+@rpc("any_peer", "reliable")
+func pickup_piece(piece_pos: Vector2i):
+	pass #idk lol
+
+
+@rpc("reliable")
+func sync_board(server_piece_array):
+	pass #dummy
+
+
 func create_new_game(white_peer_id, black_peer_id):
 	var new_instance = GAME_INSTANCE.instantiate()
 	
@@ -19,19 +29,9 @@ func create_new_game(white_peer_id, black_peer_id):
 	add_child(new_instance)
 
 
-@rpc("any_peer", "reliable")
-func pickup_piece(piece_pos: Vector2i):
-	pass #idk lol
-
-
 func sync_board_with(client_peer_ids, server_piece_array):
 	rpc_id(client_peer_ids["white"], "sync_board", server_piece_array)
 	rpc_id(client_peer_ids["black"], "sync_board", server_piece_array)
-
-
-@rpc("reliable")
-func sync_board(server_piece_array):
-	pass #dummy
 
 
 #crossways signal connection! object orientation be damned!

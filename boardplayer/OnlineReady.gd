@@ -5,17 +5,6 @@ extends HBoxContainer
 @onready var StartGame = $VBox/HBoxReady/StartGame
 
 
-func _on_ready_button_toggled(button_pressed):
-	print("ready_button_toggled")
-	#ReadyButton.set_disabled(true)
-	rpc("ready_button_pressed", button_pressed)
-
-
-func _on_start_game_pressed():
-	StartGame.set_disabled(true)
-	rpc_id(1, "start_game_pressed")
-
-
 @rpc("any_peer", "reliable")
 func ready_button_pressed(button_pressed):
 	pass #dummy
@@ -39,3 +28,14 @@ func start_button_disable(boolean: bool):
 @rpc("reliable")
 func hide_online_ready():
 	pass #temp
+
+
+func _on_ready_button_toggled(button_pressed):
+	print("ready_button_toggled")
+	ReadyButton.set_disabled(true)
+	rpc("ready_button_pressed", button_pressed)
+
+
+func _on_start_game_pressed():
+	StartGame.set_disabled(true)
+	rpc_id(1, "start_game_pressed")

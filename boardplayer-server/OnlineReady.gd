@@ -24,20 +24,20 @@ func ready_button_received():
 	pass #dummy
 
 
-func start_button_for_players(client_peer_ids, boolean: bool):
-	rpc_id(client_peer_ids["white"], "start_button_disable", boolean)
-
-
 @rpc("reliable")
 func start_button_disable(boolean: bool):
 	pass #dummy
 
 
-func hide_for_players(client_peer_ids):
-	rpc_id(client_peer_ids["white"], "hide_online_ready")
-	rpc_id(client_peer_ids["black"], "hide_online_ready")
-
-
 @rpc("reliable")
 func hide_online_ready():
 	pass #dummy
+
+
+func start_button_for_players(client_peer_ids, boolean: bool):
+	rpc_id(client_peer_ids["white"], "start_button_disable", boolean)
+
+
+func hide_for_players(client_peer_ids):
+	rpc_id(client_peer_ids["white"], "hide_online_ready")
+	rpc_id(client_peer_ids["black"], "hide_online_ready")
