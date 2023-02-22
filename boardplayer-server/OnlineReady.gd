@@ -41,3 +41,11 @@ func start_button_for_players(client_peer_ids, boolean: bool):
 func hide_for_players(client_peer_ids):
 	rpc_id(client_peer_ids["white"], "hide_online_ready")
 	rpc_id(client_peer_ids["black"], "hide_online_ready")
+
+
+func _on_checkers_client_start_button_for_players(client_peer_ids, is_disabled):
+	start_button_for_players(client_peer_ids, is_disabled)
+
+
+func _on_checkers_client_hide_online_ready_for_players(client_peer_ids):
+	hide_for_players(client_peer_ids)

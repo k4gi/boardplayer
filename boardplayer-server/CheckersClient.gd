@@ -1,6 +1,10 @@
 extends Node
 
 
+signal start_button_for_players(client_peer_ids, is_disabled)
+signal hide_online_ready_for_players(client_peer_ids)
+
+
 const GAME_INSTANCE = preload("res://GameInstance.tscn")
 
 
@@ -26,6 +30,9 @@ func create_new_game(white_peer_id, black_peer_id):
 	game_instance_index[white_peer_id] = new_instance
 	game_instance_index[black_peer_id] = new_instance
 	
+	new_instance.start_button_for_players.connect(_on_game_instance_start_button_for_players)
+	new_instance.hide_online_ready_for_players.connect(_on_game_instance_hide_online_ready_for_players)
+	
 	add_child(new_instance)
 
 
@@ -42,3 +49,11 @@ func _on_online_ready_ready_pressed(button_pressed, remote_sender):
 
 func _on_online_ready_start_pressed(remote_sender):
 	game_instance_index[remote_sender].start_game()
+
+
+func _on_game_instance_start_button_for_players(client_peer_ids, is_disabled):
+	emit_signal("start_button_for_players", client_peer_ids, is_disabled)
+
+
+func _on_game_instance_hide_online_ready_for_players(client_peer_ids):
+	emit_signal("hide_online_ready_for_players", client_peer_ids)

@@ -1,6 +1,10 @@
 extends Node
 
 
+signal start_button_for_players(client_peer_ids, is_disabled)
+signal hide_online_ready_for_players(client_peer_ids)
+
+
 const CHECKERS_PIECE = preload("res://CheckersPiece.tscn")
 
 const TILE_BEIGE = Vector2i(0,0)
@@ -25,13 +29,13 @@ var clients_ready = {"white": false, "black": false}
 func set_ready(button_pressed, remote_sender):
 	clients_ready[ client_peer_ids.find_key(remote_sender) ] = button_pressed
 	if clients_ready["white"] and clients_ready["black"]:
-		%OnlineReady.start_button_for_players(client_peer_ids, false) #enable button
+		emit_signal("start_button_for_players", client_peer_ids, false) #enable button
 	else:
-		%OnlineReady.start_button_for_players(client_peer_ids, true) #disable button
+		emit_signal("start_button_for_players", client_peer_ids, true) #disable button
 
 
 func start_game():
-	%OnlineReady.hide_for_players(client_peer_ids)
+	emit_signal("hide_online_ready_for_players", client_peer_ids)
 	
 	#build piece_array and board_array
 	var tile_toggle_red = false
