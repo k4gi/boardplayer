@@ -27,7 +27,7 @@ func start_button_disable(boolean: bool):
 
 @rpc("reliable")
 func hide_online_ready():
-	pass #temp
+	set_visible(false)
 
 
 func _on_ready_button_toggled(button_pressed):

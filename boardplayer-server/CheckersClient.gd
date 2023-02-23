@@ -13,6 +13,7 @@ var game_instance_index = {}
 
 @rpc("any_peer", "reliable")
 func pickup_piece(piece_pos: Vector2i):
+	print("pickup piece")
 	pass #idk lol
 
 

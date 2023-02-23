@@ -83,7 +83,7 @@ func create_single_game():
 
 
 func _on_checkers_game_turn_toggled(turn):
-	get_node("%TurnDisplay/Out").set_text(turn)
+	%TurnDisplay/HBox/Out.set_text(turn)
 
 
 func _on_checkers_game_game_won(turn, score):

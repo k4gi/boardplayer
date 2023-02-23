@@ -65,5 +65,6 @@ func sync_board(server_piece_array):
 
 
 func _on_checkers_piece_pickup_piece(piece):
+	print("checkers client pickup piece")
 	if i_can_move.has( piece.get("allegiance") ):
 		rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))

@@ -104,14 +104,23 @@ size_flags_vertical = 3
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 0
 
-[node name="Out" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
+[node name="HBox" type="HBoxContainer" parent="MarginContainer/VBoxUI/TurnDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Out" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay/HBox"]
 layout_mode = 2
 text = "White"
 uppercase = true
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay"]
+[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/TurnDisplay/HBox"]
 layout_mode = 2
 text = "'s turn"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxUI/TurnDisplay"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
 
 [node name="WinResult" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
