@@ -14,11 +14,13 @@ script = ExtResource("1_farx3")
 custom_minimum_size = Vector2(1024, 512)
 offset_right = 412.0
 offset_bottom = 227.0
+mouse_filter = 2
 theme = ExtResource("3_183qv")
 metadata/_edit_use_anchors_ = true
 
 [node name="VBoxUI" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
