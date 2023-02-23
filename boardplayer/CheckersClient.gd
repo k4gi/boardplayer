@@ -60,6 +60,7 @@ func sync_board(server_piece_array):
 						$Board/BlackPieces.add_child(new_piece)
 					_:
 						print("board syncing has made a hecking mistake")
+						new_piece.queue_free()
 			y += 1
 		x += 1
 
