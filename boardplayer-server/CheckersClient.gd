@@ -18,7 +18,7 @@ func pickup_piece(piece_pos: Vector2i):
 
 
 @rpc("reliable")
-func sync_board(server_piece_array):
+func sync_board(server_piece_array, turn, score):
 	pass #dummy
 
 
@@ -37,9 +37,9 @@ func create_new_game(white_peer_id, black_peer_id):
 	add_child(new_instance)
 
 
-func sync_board_with(client_peer_ids, server_piece_array):
-	rpc_id(client_peer_ids["white"], "sync_board", server_piece_array)
-	rpc_id(client_peer_ids["black"], "sync_board", server_piece_array)
+func sync_board_with(client_peer_ids, server_piece_array, turn, score):
+	rpc_id(client_peer_ids["white"], "sync_board", server_piece_array, turn, score)
+	rpc_id(client_peer_ids["black"], "sync_board", server_piece_array, turn, score)
 
 
 #crossways signal connection! object orientation be damned!

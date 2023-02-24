@@ -49,7 +49,7 @@ func start_game():
 			if (x%2 == 0) != (last_three%2 == 0):
 				spawn_piece(x, last_three, "up", "black")
 	
-	get_parent().sync_board_with(client_peer_ids, piece_array)
+	get_parent().sync_board_with(client_peer_ids, piece_array, turn, score)
 
 
 func spawn_piece(x, y, facing, colour):

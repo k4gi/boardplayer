@@ -25,7 +25,7 @@ func pickup_piece(piece_pos: Vector2i):
 
 
 @rpc("reliable")
-func sync_board(server_piece_array):
+func sync_board(server_piece_array, turn, score):
 	#why not, just wipe the board every time
 	for each_piece in $Board/BlackPieces.get_children():
 		$Board/BlackPieces.remove_child(each_piece)
@@ -63,6 +63,22 @@ func sync_board(server_piece_array):
 						new_piece.queue_free()
 			y += 1
 		x += 1
+	
+	if score["white"] == 0 or score["black"] == 0:
+		emit_signal("game_won", score)
+	else:
+		emit_signal("turn_toggled", turn)
+		set_all_pieces_pickable(false)
+		set_all_pieces_pickable(true, turn)
+
+
+func set_all_pieces_pickable(boolean, target_colour="both"):
+	if target_colour != "black" and i_can_move.has("white"):
+		for each_piece in $Board/WhitePieces.get_children():
+			each_piece.set_pickable(boolean)
+	if target_colour != "white" and i_can_move.has("black"):
+		for each_piece in $Board/BlackPieces.get_children():
+			each_piece.set_pickable(boolean)
 
 
 func _on_checkers_piece_pickup_piece(piece):
