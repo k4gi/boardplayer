@@ -13,12 +13,29 @@ var game_instance_index = {}
 
 @rpc("any_peer", "reliable")
 func pickup_piece(piece_pos: Vector2i):
-	print("pickup piece")
-	pass #idk lol
+	var remote_sender = multiplayer.get_remote_sender_id()
+	var server_piece = game_instance_index[remote_sender].piece_array[piece_pos.x][piece_pos.y]
+	
+	if server_piece == null:
+		print("pickup_piece discrepancy - $d no piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return
+	
+	if game_instance_index[remote_sender].client_peer_ids[server_piece.get("allegiance")] != remote_sender:
+		print("pickup_piece discrepancy - $d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return
+	
+	#alright the piece exists and we're allowed to move it. now we need to send highlight positions
+	var highlights = game_instance_index[remote_sender].get_highlights(piece_pos)
+	rpc_id(remote_sender, "spawn_highlights", piece_pos, highlights)
 
 
 @rpc("reliable")
 func sync_board(server_piece_array, turn, score):
+	pass #dummy
+
+
+@rpc("reliable")
+func spawn_highlights(piece_pos, highlights):
 	pass #dummy
 
 
