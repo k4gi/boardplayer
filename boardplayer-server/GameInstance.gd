@@ -60,7 +60,7 @@ func spawn_piece(x, y, facing, colour):
 	piece_array[x][y] = new_piece
 
 
-func get_highlights(piece_pos, jumps_only = false):
+func get_highlights(piece_pos, jumps_only = false):# -> Array:
 	var output_highlights = []
 	# a "highlight" is a dictionary, let's say
 	#with a position x y in the grid
@@ -94,4 +94,5 @@ func get_highlights(piece_pos, jumps_only = false):
 							new_highlight["pos"] = second_target_spot
 							new_highlight["taking_piece_pos"] = target_spot
 							output_highlights.append( new_highlight )
-
+	
+	return output_highlights
