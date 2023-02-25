@@ -18,6 +18,8 @@ const MOVE_HIGHLIGHT = preload("res://MoveHighlight.tscn")
 
 var i_can_move = ["white", "black"]
 
+var carrying_piece
+
 
 @rpc("any_peer", "reliable")
 func pickup_piece(piece_pos: Vector2i):
@@ -77,7 +79,6 @@ func spawn_highlights(piece_pos, highlights):
 	spawn_highlight(piece_pos, null, "return")
 	for each_highlight in highlights:
 		spawn_highlight(each_highlight["pos"], each_highlight["taking_piece_pos"])
-	#is this all there is here?
 
 
 func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
@@ -86,7 +87,7 @@ func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
 	if type == "return":
 		new_highlight.set_texture( HIGHLIGHT_RETURN )
 		new_highlight.set("is_action", false)
-	new_highlight.set_position(pos)
+	new_highlight.set_position($Board.map_to_local(pos))
 	new_highlight.set("is_taking_piece", taking_piece_pos)
 	$Board/Highlights.add_child(new_highlight)
 
@@ -100,10 +101,52 @@ func set_all_pieces_pickable(boolean, target_colour="both"):
 			each_piece.set_pickable(boolean)
 
 
+func _process(_delta):
+	if carrying_piece != null:
+		carrying_piece.set_global_position( get_global_mouse_position() + carrying_piece.get("grab_position") )
+
+
 func _on_checkers_piece_pickup_piece(piece):
 	if i_can_move.has( piece.get("allegiance") ):
 		rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))
+		#maybe it's fine to pickup the piece here
+		#since the client thinks it's ok
+		piece.set( "grab_position", piece.get_global_position() - get_global_mouse_position() )
+		piece.set_z_index(1)
+		set_all_pieces_pickable(false)
+		carrying_piece = piece
 
 
 func _on_move_highlight_move_here(highlight):
-	pass #this is where the nightmare begins
+	var is_action = highlight.get("is_action")
+	var taking_piece = highlight.get("is_taking_piece")
+	var highlight_pos = highlight.get_position()
+	
+	if not is_action: #not making a move
+		put_piece_back_down(highlight_pos)
+	elif taking_piece == null: #making a move but not taking a piecee
+		pass
+	else: #taking a piece!!!
+		pass
+		#test whether we can take more pieces
+		for each_child in $Board/Highlights.get_children():
+			$Board/Highlights.remove_child( each_child )
+			each_child.queue_free()
+		
+		#more highlights here
+		
+		if $Board/Highlights.get_child_count() == 0:
+			pass #finished
+		else:
+			#if jumping is not mandatory
+			pass
+
+
+func put_piece_back_down( highlight_pos ):
+	carrying_piece.set_position( highlight_pos )
+	carrying_piece.set_z_index(0)
+	carrying_piece = null
+	for each_highlight in $Board/Highlights.get_children():
+		each_highlight.queue_free()
+	set_all_pieces_pickable(true)#, turn)
+	#whose turn is it?
