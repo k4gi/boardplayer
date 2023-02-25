@@ -61,6 +61,7 @@ func spawn_piece(x, y, facing, colour):
 
 
 func get_highlights(piece_pos):
+	var output_highlights = []
 	# a "highlight" is a dictionary, let's say
 	#with a position x y in the grid
 	#and a taking_piece position x y in the grid. for when you're jumping. so we can keep track of who to delete.

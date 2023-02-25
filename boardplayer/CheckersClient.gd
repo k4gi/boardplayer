@@ -72,6 +72,25 @@ func sync_board(server_piece_array, turn, score):
 		set_all_pieces_pickable(true, turn)
 
 
+@rpc("reliable")
+func spawn_highlights(piece_pos, highlights):
+	spawn_highlight(piece_pos, null, "return")
+	for each_highlight in highlights:
+		spawn_highlight(each_highlight["pos"], each_highlight["taking_piece_pos"])
+	#is this all there is here?
+
+
+func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
+	var new_highlight = MOVE_HIGHLIGHT.instantiate()
+	#new_highlight.move_here.connect(_on_move_highlight_move_here)
+	if type == "return":
+		new_highlight.set_texture( HIGHLIGHT_RETURN )
+		new_highlight.set("is_action", false)
+	new_highlight.set_position(pos)
+	new_highlight.set("is_taking_piece", taking_piece_pos)
+	$Board/Highlights.add_child(new_highlight)
+
+
 func set_all_pieces_pickable(boolean, target_colour="both"):
 	if target_colour != "black" and i_can_move.has("white"):
 		for each_piece in $Board/WhitePieces.get_children():
