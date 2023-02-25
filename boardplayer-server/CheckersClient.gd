@@ -24,6 +24,10 @@ func pickup_piece(piece_pos: Vector2i):
 		print("pickup_piece discrepancy - $d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
 		return
 	
+	if game_instance_index[remote_sender].get("turn") != server_piece.get("allegiance"):
+		print("pickup_piece discrepancy - $d not your turn" % remote_sender)
+		return
+	
 	#alright the piece exists and we're allowed to move it. now we need to send highlight positions
 	var highlights = game_instance_index[remote_sender].get_highlights(piece_pos)
 	rpc_id(remote_sender, "spawn_highlights", piece_pos, highlights)
@@ -40,13 +44,29 @@ func spawn_highlights(piece_pos, highlights):
 
 
 @rpc("any_peer", "reliable")
-func move_piece():
+func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i):
 	#what do i need in order to move a piece?
 	# i need. which piece is moving.
 	# i need. where it's moving to.
 	#that's all. then i can check again if it can move there and if there's a piece being taken
 	#the MoveHighlights though. they know which piece is being taken. is that helpful?
-	pass
+	var remote_sender = multiplayer.get_remote_sender_id()
+	var piece_array = game_instance_index[remote_sender].get("piece_array")
+	
+	if piece_array[piece_pos.x][piece_pos.y] == null:
+		print("move_piece discrepancy - $d no piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return
+	
+	if game_instance_index[remote_sender].client_peer_ids[piece_array[piece_pos.x][piece_pos.y].get("allegiance")] != remote_sender:
+		print("move_piece discrepancy - $d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return
+		
+	if game_instance_index[remote_sender].get("turn") != piece_array[piece_pos.x][piece_pos.y].get("allegiance"):
+		print("move_piece discrepancy - $d not your turn" % remote_sender)
+		return
+	
+	#i think now we need to check if the place we're moving to is ok
+	# and then we can move
 
 
 func create_new_game(white_peer_id, black_peer_id):

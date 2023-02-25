@@ -4,11 +4,13 @@ extends Area2D
 signal pickup_piece(piece)
 
 
-var grab_position = Vector2i.ZERO
+var grab_position := Vector2i.ZERO
 
 var can_move = [] # "up", "down"
 
 var allegiance # "white" or "black"
+
+var grid_position := Vector2i.ZERO
 
 
 func _on_checkers_piece_input_event(viewport, event, shape_idx):

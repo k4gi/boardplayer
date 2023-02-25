@@ -44,6 +44,7 @@ func sync_board(server_piece_array, turn, score):
 				var new_piece = CHECKERS_PIECE.instantiate()
 				new_piece.pickup_piece.connect(_on_checkers_piece_pickup_piece)
 				new_piece.set_position($Board.map_to_local(Vector2i(x,y)))
+				new_piece.set("grid_position", Vector2i(x,y))
 				for each_direction in server_piece_array[x][y]["can_move"]:
 					new_piece.get("can_move").append(each_direction)
 				new_piece.set("allegiance", server_piece_array[x][y]["allegiance"] )
@@ -81,6 +82,11 @@ func spawn_highlights(piece_pos, highlights):
 		spawn_highlight(each_highlight["pos"], each_highlight["taking_piece_pos"])
 
 
+@rpc("any_peer", "reliable")
+func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i):
+	pass #dummy
+
+
 func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
 	var new_highlight = MOVE_HIGHLIGHT.instantiate()
 	new_highlight.move_here.connect(_on_move_highlight_move_here)
@@ -108,7 +114,7 @@ func _process(_delta):
 
 func _on_checkers_piece_pickup_piece(piece):
 	if i_can_move.has( piece.get("allegiance") ):
-		rpc_id(1, "pickup_piece", $Board.local_to_map(piece.get_position()))
+		rpc_id(1, "pickup_piece", piece.get("grid_position"))
 		#maybe it's fine to pickup the piece here
 		#since the client thinks it's ok
 		piece.set( "grab_position", piece.get_global_position() - get_global_mouse_position() )
@@ -124,22 +130,26 @@ func _on_move_highlight_move_here(highlight):
 	
 	if not is_action: #not making a move
 		put_piece_back_down(highlight_pos)
-	elif taking_piece == null: #making a move but not taking a piecee
-		pass
-	else: #taking a piece!!!
-		pass
-		#test whether we can take more pieces
-		for each_child in $Board/Highlights.get_children():
-			$Board/Highlights.remove_child( each_child )
-			each_child.queue_free()
-		
-		#more highlights here
-		
-		if $Board/Highlights.get_child_count() == 0:
-			pass #finished
-		else:
-			#if jumping is not mandatory
-			pass
+	#maybe it doesn't matter clientside whether i'm taking a piece.
+	#the server needs to verify anyway
+	else:
+		rpc_id(1, "move_piece", carrying_piece.get("grid_position"), $Board.local_to_map(highlight_pos))
+#	elif taking_piece == null: #making a move but not taking a piecee
+#		pass
+#	else: #taking a piece!!!
+#		pass
+#		#test whether we can take more pieces
+#		for each_child in $Board/Highlights.get_children():
+#			$Board/Highlights.remove_child( each_child )
+#			each_child.queue_free()
+#
+#		#more highlights here
+#
+#		if $Board/Highlights.get_child_count() == 0:
+#			pass #finished
+#		else:
+#			#if jumping is not mandatory
+#			pass
 
 
 func put_piece_back_down( highlight_pos ):
