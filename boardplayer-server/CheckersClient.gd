@@ -39,6 +39,16 @@ func spawn_highlights(piece_pos, highlights):
 	pass #dummy
 
 
+@rpc("any_peer", "reliable")
+func move_piece():
+	#what do i need in order to move a piece?
+	# i need. which piece is moving.
+	# i need. where it's moving to.
+	#that's all. then i can check again if it can move there and if there's a piece being taken
+	#the MoveHighlights though. they know which piece is being taken. is that helpful?
+	pass
+
+
 func create_new_game(white_peer_id, black_peer_id):
 	var new_instance = GAME_INSTANCE.instantiate()
 	

@@ -158,7 +158,7 @@ func place_move_highlights(starting_pos, jumps_only = false):
 	var target_rows = []
 	if carried_piece.get("can_move").has("up") and starting_spot.y-1 >= 0:
 		target_rows.append( -1 )
-	if carried_piece.get("can_move").has("down") and starting_spot.y+1 < 8: 
+	if carried_piece.get("can_move").has("down") and starting_spot.y+1 < 8:
 		target_rows.append( 1 )
 	
 	for y_diff in target_rows:
