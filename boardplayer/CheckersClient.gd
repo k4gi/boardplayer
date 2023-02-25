@@ -82,7 +82,7 @@ func spawn_highlights(piece_pos, highlights):
 
 func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
 	var new_highlight = MOVE_HIGHLIGHT.instantiate()
-	#new_highlight.move_here.connect(_on_move_highlight_move_here)
+	new_highlight.move_here.connect(_on_move_highlight_move_here)
 	if type == "return":
 		new_highlight.set_texture( HIGHLIGHT_RETURN )
 		new_highlight.set("is_action", false)
