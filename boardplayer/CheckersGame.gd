@@ -40,6 +40,54 @@ var i_can_move = ["white", "black"] #which side i'm on
 var in_control_of_piece = false #whether i'm moving the carried piece 
 
 
+@rpc("any_peer", "unreliable_ordered")
+func remote_control_piece(pos):
+	if carried_piece != null and not in_control_of_piece:
+		carried_piece.set_global_position( pos )
+
+
+@rpc("any_peer", "reliable")
+func remote_pickup_piece(coords: Vector2i, grab_position: Vector2):
+	carried_piece = piece_array[coords.x][coords.y]
+	carried_piece.grab_position = grab_position
+	carried_piece.set_z_index(1)
+	in_control_of_piece = false
+	set_all_pieces_pickable(false)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func move_without_taking_piece(piece_in_array: Vector2i, highlight_pos):
+	toggle_turn()
+	move_piece_in_array(piece_in_array, highlight_pos)
+	put_piece_back_down(highlight_pos)
+	set_all_pieces_pickable(true, turn)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func move_with_taking_piece(piece_in_array: Vector2i, highlight_pos, taking_piece_position, taking_piece_allegiance):
+	delete_piece(taking_piece_position)
+	move_piece_in_array(piece_in_array, highlight_pos)
+	subtract_score(taking_piece_allegiance)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func finish_taking_pieces(highlight_pos):
+	toggle_turn()
+	put_piece_back_down(highlight_pos)
+	set_all_pieces_pickable(true, turn)
+
+
+@rpc("any_peer", "call_local", "reliable")
+func put_piece_back_down( highlight_pos ):
+	carried_piece.set_position( highlight_pos )
+	carried_piece.set_z_index(0)
+	carried_piece = null
+	in_control_of_piece = false
+	for each_highlight in $Board/Highlights.get_children():
+		each_highlight.queue_free()
+	set_all_pieces_pickable(true, turn)
+
+
 func _ready():
 	#build piece_array
 	for x in range(8):
@@ -90,12 +138,6 @@ func _process(_delta):
 		rpc("remote_control_piece", get_global_mouse_position() + carried_piece.get("grab_position") )
 
 
-@rpc("any_peer", "unreliable_ordered")
-func remote_control_piece(pos):
-	if carried_piece != null and not in_control_of_piece:
-		carried_piece.set_global_position( pos )
-
-
 func _on_checkers_piece_pickup_piece(piece):
 	piece.grab_position = piece.get_global_position() - get_global_mouse_position()
 	piece.set_z_index(1) #want held piece to be above all others
@@ -108,15 +150,6 @@ func _on_checkers_piece_pickup_piece(piece):
 	spawn_highlight(piece.get_position(), null, "return")
 	
 	place_move_highlights(carried_piece.get_position())
-
-
-@rpc("any_peer", "reliable")
-func remote_pickup_piece(coords: Vector2i, grab_position: Vector2):
-	carried_piece = piece_array[coords.x][coords.y]
-	carried_piece.grab_position = grab_position
-	carried_piece.set_z_index(1)
-	in_control_of_piece = false
-	set_all_pieces_pickable(false)
 
 
 func place_move_highlights(starting_pos, jumps_only = false):
@@ -186,28 +219,6 @@ func _on_move_highlight_move_here(highlight):
 			spawn_highlight( highlight_pos, null)
 
 
-@rpc("any_peer", "call_local", "reliable")
-func move_without_taking_piece(piece_in_array: Vector2i, highlight_pos):
-	toggle_turn()
-	move_piece_in_array(piece_in_array, highlight_pos)
-	put_piece_back_down(highlight_pos)
-	set_all_pieces_pickable(true, turn)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func move_with_taking_piece(piece_in_array: Vector2i, highlight_pos, taking_piece_position, taking_piece_allegiance):
-	delete_piece(taking_piece_position)
-	move_piece_in_array(piece_in_array, highlight_pos)
-	subtract_score(taking_piece_allegiance)
-
-
-@rpc("any_peer", "call_local", "reliable")
-func finish_taking_pieces(highlight_pos):
-	toggle_turn()
-	put_piece_back_down(highlight_pos)
-	set_all_pieces_pickable(true, turn)
-
-
 func subtract_score( allegiance ):
 	score[allegiance] -= 1
 	if score[allegiance] == 0:
@@ -253,17 +264,6 @@ func check_becoming_king( map_pos ):
 			carried_piece.set_texture( WHITE_KING )
 		else:
 			carried_piece.set_texture( BLACK_KING )
-
-
-@rpc("any_peer", "call_local", "reliable")
-func put_piece_back_down( highlight_pos ):
-	carried_piece.set_position( highlight_pos )
-	carried_piece.set_z_index(0)
-	carried_piece = null
-	in_control_of_piece = false
-	for each_highlight in $Board/Highlights.get_children():
-		each_highlight.queue_free()
-	set_all_pieces_pickable(true, turn)
 
 
 func set_all_pieces_pickable(boolean, target_colour="both"):
