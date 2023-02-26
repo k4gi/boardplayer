@@ -96,3 +96,7 @@ func get_highlights(piece_pos, jumps_only = false):# -> Array:
 							output_highlights.append( new_highlight )
 	
 	return output_highlights
+
+
+func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
+	pass

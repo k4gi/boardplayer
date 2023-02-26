@@ -33,13 +33,14 @@ func spawn_highlights(piece_pos, highlights):
 
 
 @rpc("any_peer", "reliable")
-func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i):
+func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
 	var remote_sender = multiplayer.get_remote_sender_id()
 	var piece_array = game_instance_index[remote_sender].get("piece_array")
 	
-	#ahh
-	#i think now we need to check if the place we're moving to is ok
-	# and then we can move
+	if not detect_piece_pos_discrepancies(remote_sender, piece_array, piece_pos) or \
+		detect_highlight_pos_discrepancies(remote_sender, piece_array, piece_pos, highlight_pos, taking_piece_pos):
+			#we can move the piece now
+			game_instance_index[remote_sender].move_piece(piece_pos, highlight_pos, taking_piece_pos)
 
 
 func detect_piece_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i) -> bool:
@@ -62,7 +63,7 @@ func detect_piece_pos_discrepancies(remote_sender: int, piece_array: Array, piec
 	return false
 
 
-func detect_highlight_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i, highlight_pos: Vector2i) -> bool:
+func detect_highlight_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos) -> bool:
 	if highlight_pos.x < 0 or highlight_pos.x >= 8 or highlight_pos.y < 0 or highlight_pos.y >= 8:
 		print("highlight_pos discrepancy - %d highlight is off the board %d,%d" % [remote_sender, highlight_pos.x, highlight_pos.y])
 		return true
@@ -70,8 +71,42 @@ func detect_highlight_pos_discrepancies(remote_sender: int, piece_array: Array, 
 	if piece_array[highlight_pos.x][highlight_pos.y] != null:
 		print("highlight_pos discrepancy - %d piece at %d,%d" % [remote_sender, highlight_pos.x, highlight_pos.y])
 		return true
+
+	if ( highlight_pos.y < piece_pos.y and not piece_array[piece_pos.x][piece_pos.y]["can_move"].has("up") ) or \
+		( highlight_pos.y > piece_pos.y and not piece_array[piece_pos.x][piece_pos.y]["can_move"].has("down") ):
+			print("highlight_pos discrepancy - %d highlight is in the wrong direction %d,%d from piece %d,%d" % \
+				[remote_sender, highlight_pos.x, highlight_pos.y, piece_pos.x, piece_pos.y])
+			return true
 	
-	#we need to know here (and in move_piece) whether the highlight is taking a piece, and which piece it is
+	if taking_piece_pos == null:
+		#and whether it's only moving one step
+		if absi( highlight_pos.x - piece_pos.x ) != 1 or absi( highlight_pos.y - piece_pos.y ) != 1:
+			print("highlight_pos discrepancy - %d not taking piece, moving to invalid square %d,%d from piece %d,%d" % \
+				[remote_sender, highlight_pos.x, highlight_pos.y, piece_pos.x, piece_pos.y])
+			return true
+	else:
+		#or whether it's moving two steps
+		if absi( highlight_pos.x - piece_pos.x ) != 2 or absi( highlight_pos.y - piece_pos.y ) != 2:
+			print("highlight_pos discrepancy - %d taking piece, moving to invalid square %d,%d from piece %d,%d" % \
+				[remote_sender, highlight_pos.x, highlight_pos.y, piece_pos.x, piece_pos.y])
+			return true
+		#and the taking piece is on the first step
+		if highlight_pos.x - piece_pos.x > 0 and taking_piece_pos.x - piece_pos.x != 1 or \
+			highlight_pos.x - piece_pos.x < 0 and taking_piece_pos.x - piece_pos.x != -1 or \
+			highlight_pos.y - piece_pos.y > 0 and taking_piece_pos.y - piece_pos.y != 1 or \
+			highlight_pos.y - piece_pos.y < 0 and taking_piece_pos.y - piece_pos.y != -1:
+				print("highlight_pos discrepancy - %d taking piece %d,%d is not between highlight %d,%d and piece %d,%d" % \
+				[remote_sender, taking_piece_pos.x, taking_piece_pos.y, highlight_pos.x, highlight_pos.y, piece_pos.x, piece_pos.y])
+				return true
+		#finally is there a piece at taking_piece_pos and is it your enemy
+		if piece_array[taking_piece_pos.x][taking_piece_pos.y] == null:
+			print("highlight_pos discrepancy - %d no piece to take at %d,%d" % [remote_sender, taking_piece_pos.x, taking_piece_pos.y])
+			return true
+		
+		if piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] == piece_array[piece_pos.x][piece_pos.y]["allegiance"]:
+			print("highlight_pos discrepancy - %d trying to take own piece" % remote_sender)
+			return true
+	
 	return false
 
 func create_new_game(white_peer_id, black_peer_id):
