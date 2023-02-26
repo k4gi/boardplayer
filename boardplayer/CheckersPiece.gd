@@ -4,7 +4,7 @@ extends Area2D
 signal pickup_piece(piece)
 
 
-var grab_position := Vector2i.ZERO
+var grab_position := Vector2.ZERO
 
 var can_move = [] # "up", "down"
 

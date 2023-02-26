@@ -14,23 +14,12 @@ var game_instance_index = {}
 @rpc("any_peer", "reliable")
 func pickup_piece(piece_pos: Vector2i):
 	var remote_sender = multiplayer.get_remote_sender_id()
-	var server_piece = game_instance_index[remote_sender].piece_array[piece_pos.x][piece_pos.y]
+	var piece_array = game_instance_index[remote_sender].get("piece_array")
 	
-	if server_piece == null:
-		print("pickup_piece discrepancy - $d no piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
-		return
-	
-	if game_instance_index[remote_sender].client_peer_ids[server_piece.get("allegiance")] != remote_sender:
-		print("pickup_piece discrepancy - $d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
-		return
-	
-	if game_instance_index[remote_sender].get("turn") != server_piece.get("allegiance"):
-		print("pickup_piece discrepancy - $d not your turn" % remote_sender)
-		return
-	
-	#alright the piece exists and we're allowed to move it. now we need to send highlight positions
-	var highlights = game_instance_index[remote_sender].get_highlights(piece_pos)
-	rpc_id(remote_sender, "spawn_highlights", piece_pos, highlights)
+	if not detect_piece_pos_discrepancies(remote_sender, piece_array, piece_pos):
+		#alright the piece exists and we're allowed to move it. now we need to send highlight positions
+		var highlights = game_instance_index[remote_sender].get_highlights(piece_pos)
+		rpc_id(remote_sender, "spawn_highlights", piece_pos, highlights)
 
 
 @rpc("reliable")
@@ -45,29 +34,45 @@ func spawn_highlights(piece_pos, highlights):
 
 @rpc("any_peer", "reliable")
 func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i):
-	#what do i need in order to move a piece?
-	# i need. which piece is moving.
-	# i need. where it's moving to.
-	#that's all. then i can check again if it can move there and if there's a piece being taken
-	#the MoveHighlights though. they know which piece is being taken. is that helpful?
 	var remote_sender = multiplayer.get_remote_sender_id()
 	var piece_array = game_instance_index[remote_sender].get("piece_array")
 	
-	if piece_array[piece_pos.x][piece_pos.y] == null:
-		print("move_piece discrepancy - $d no piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
-		return
-	
-	if game_instance_index[remote_sender].client_peer_ids[piece_array[piece_pos.x][piece_pos.y].get("allegiance")] != remote_sender:
-		print("move_piece discrepancy - $d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
-		return
-		
-	if game_instance_index[remote_sender].get("turn") != piece_array[piece_pos.x][piece_pos.y].get("allegiance"):
-		print("move_piece discrepancy - $d not your turn" % remote_sender)
-		return
-	
+	#ahh
 	#i think now we need to check if the place we're moving to is ok
 	# and then we can move
 
+
+func detect_piece_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i) -> bool:
+	if piece_pos.x < 0 or piece_pos.x >= 8 or piece_pos.y < 0 or piece_pos.y >= 8:
+		print("piece_pos discrepancy - %d piece is off the board %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return true
+	
+	if piece_array[piece_pos.x][piece_pos.y] == null:
+		print("piece_pos discrepancy - %d no piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return true
+	
+	if game_instance_index[remote_sender].client_peer_ids[piece_array[piece_pos.x][piece_pos.y].get("allegiance")] != remote_sender:
+		print("piece_pos discrepancy - %d does not control piece at %d,%d" % [remote_sender, piece_pos.x, piece_pos.y])
+		return true
+		
+	if game_instance_index[remote_sender].get("turn") != piece_array[piece_pos.x][piece_pos.y].get("allegiance"):
+		print("piece_pos discrepancy - %d not your turn" % remote_sender)
+		return true
+	
+	return false
+
+
+func detect_highlight_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i, highlight_pos: Vector2i) -> bool:
+	if highlight_pos.x < 0 or highlight_pos.x >= 8 or highlight_pos.y < 0 or highlight_pos.y >= 8:
+		print("highlight_pos discrepancy - %d highlight is off the board %d,%d" % [remote_sender, highlight_pos.x, highlight_pos.y])
+		return true
+	
+	if piece_array[highlight_pos.x][highlight_pos.y] != null:
+		print("highlight_pos discrepancy - %d piece at %d,%d" % [remote_sender, highlight_pos.x, highlight_pos.y])
+		return true
+	
+	#we need to know here (and in move_piece) whether the highlight is taking a piece, and which piece it is
+	return false
 
 func create_new_game(white_peer_id, black_peer_id):
 	var new_instance = GAME_INSTANCE.instantiate()
