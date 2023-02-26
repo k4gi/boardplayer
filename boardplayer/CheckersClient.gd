@@ -76,8 +76,9 @@ func sync_board(server_piece_array, turn, score):
 
 
 @rpc("reliable")
-func spawn_highlights(piece_pos, highlights):
-	spawn_highlight(piece_pos, null, "return")
+func spawn_highlights(piece_pos, highlights, spawn_return=true):
+	if spawn_return:
+		spawn_highlight(piece_pos, null, "return")
 	for each_highlight in highlights:
 		spawn_highlight(each_highlight["pos"], each_highlight["taking_piece_pos"])
 
@@ -133,7 +134,7 @@ func _on_move_highlight_move_here(highlight):
 	#maybe it doesn't matter clientside whether i'm taking a piece.
 	#the server needs to verify anyway
 	else:
-		rpc_id(1, "move_piece", carrying_piece.get("grid_position"), $Board.local_to_map(highlight_pos, highlight.get("taking_piece_pos")))
+		rpc_id(1, "move_piece", carrying_piece.get("grid_position"), $Board.local_to_map(highlight_pos), highlight.get("taking_piece_pos"))
 
 	for each_child in $Board/Highlights.get_children():
 		$Board/Highlights.remove_child( each_child )

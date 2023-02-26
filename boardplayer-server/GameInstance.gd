@@ -99,4 +99,40 @@ func get_highlights(piece_pos, jumps_only = false):# -> Array:
 
 
 func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
-	pass
+	var output = null
+	
+	piece_array[highlight_pos.x][highlight_pos.y] = piece_array[piece_pos.x][piece_pos.y]
+	piece_array[piece_pos.x][piece_pos.y] = null
+	if taking_piece_pos == null:
+		#that's the end of the turn
+		toggle_turn()
+	else:
+		score[ piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] ] -= 1
+		if score[ piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] ] == 0:
+			#game is won
+			output = "game_won"
+		else:
+			piece_array[taking_piece_pos.x][taking_piece_pos.y] = null
+			var new_highlights = get_highlights(highlight_pos, true)
+			if new_highlights == []:
+				#end of turn
+				toggle_turn()
+			else:
+				#if jumping is optional:
+				var new_highlight = {}
+				new_highlight["pos"] = highlight_pos
+				new_highlight["taking_piece_pos"] = null
+				new_highlights.append( new_highlight )
+				
+				output = new_highlights
+	
+	get_parent().sync_board_with(client_peer_ids, piece_array, turn, score)
+	
+	return output
+
+
+func toggle_turn():
+	if turn == "white":
+		turn = "black"
+	else:
+		turn = "white"

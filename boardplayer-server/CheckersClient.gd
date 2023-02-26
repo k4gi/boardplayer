@@ -28,7 +28,7 @@ func sync_board(server_piece_array, turn, score):
 
 
 @rpc("reliable")
-func spawn_highlights(piece_pos, highlights):
+func spawn_highlights(piece_pos, highlights, spawn_return=true):
 	pass #dummy
 
 
@@ -40,7 +40,11 @@ func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
 	if not detect_piece_pos_discrepancies(remote_sender, piece_array, piece_pos) or \
 		detect_highlight_pos_discrepancies(remote_sender, piece_array, piece_pos, highlight_pos, taking_piece_pos):
 			#we can move the piece now
-			game_instance_index[remote_sender].move_piece(piece_pos, highlight_pos, taking_piece_pos)
+			var move_result = game_instance_index[remote_sender].move_piece(piece_pos, highlight_pos, taking_piece_pos)
+			if move_result == "game_won":
+				return
+			if move_result != null:
+				rpc_id(remote_sender, "spawn_highlights", highlight_pos, move_result, false)
 
 
 func detect_piece_pos_discrepancies(remote_sender: int, piece_array: Array, piece_pos: Vector2i) -> bool:
