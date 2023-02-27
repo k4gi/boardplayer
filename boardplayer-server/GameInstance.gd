@@ -101,8 +101,17 @@ func get_highlights(piece_pos, jumps_only = false):# -> Array:
 func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
 	var output = null
 	
-	piece_array[highlight_pos.x][highlight_pos.y] = piece_array[piece_pos.x][piece_pos.y]
-	piece_array[piece_pos.x][piece_pos.y] = null
+	if piece_array[piece_pos.x][piece_pos.y] != piece_array[highlight_pos.x][highlight_pos.y]:
+		piece_array[highlight_pos.x][highlight_pos.y] = piece_array[piece_pos.x][piece_pos.y]
+		piece_array[piece_pos.x][piece_pos.y] = null
+	
+	#check for becoming king
+	if piece_array[highlight_pos.x][highlight_pos.y]["can_move"].size() == 1:
+		if piece_array[highlight_pos.x][highlight_pos.y]["can_move"].has("up") and highlight_pos.y == 0:
+			piece_array[highlight_pos.x][highlight_pos.y]["can_move"].append("down")
+		elif piece_array[highlight_pos.x][highlight_pos.y]["can_move"].has("down") and highlight_pos.y == 7:
+			piece_array[highlight_pos.x][highlight_pos.y]["can_move"].append("up")
+	
 	if taking_piece_pos == null:
 		#that's the end of the turn
 		toggle_turn()

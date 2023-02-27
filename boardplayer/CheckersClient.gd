@@ -2,7 +2,7 @@ extends Node2D
 
 
 signal turn_toggled( turn )
-signal game_won( score )
+signal game_won( turn, score )
 
 
 const WHITE_PIECE = preload("res://WhitePiece.tres")
@@ -68,7 +68,7 @@ func sync_board(server_piece_array, turn, score):
 		x += 1
 	
 	if score["white"] == 0 or score["black"] == 0:
-		emit_signal("game_won", score)
+		emit_signal("game_won", turn, score)
 	else:
 		emit_signal("turn_toggled", turn)
 		set_all_pieces_pickable(false)
@@ -77,6 +77,9 @@ func sync_board(server_piece_array, turn, score):
 
 @rpc("reliable")
 func spawn_highlights(piece_pos, highlights, spawn_return=true):
+	if carrying_piece == null:
+		find_piece_to_carry(piece_pos)
+	
 	if spawn_return:
 		spawn_highlight(piece_pos, null, "return")
 	for each_highlight in highlights:
@@ -87,6 +90,18 @@ func spawn_highlights(piece_pos, highlights, spawn_return=true):
 func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
 	pass #dummy
 
+
+func find_piece_to_carry(piece_pos):
+	var piece_folder
+	if i_can_move.has("white"):
+		piece_folder = $Board/WhitePieces.get_children()
+	else:
+		piece_folder = $Board/BlackPieces.get_children()
+	
+	for each_piece in piece_folder:
+		if each_piece.get("grid_position") == piece_pos:
+			carrying_piece = each_piece
+			return
 
 func spawn_highlight(pos: Vector2i, taking_piece_pos, type="move"):
 	var new_highlight = MOVE_HIGHLIGHT.instantiate()
@@ -139,28 +154,13 @@ func _on_move_highlight_move_here(highlight):
 	for each_child in $Board/Highlights.get_children():
 		$Board/Highlights.remove_child( each_child )
 		each_child.queue_free()
-#	elif taking_piece == null: #making a move but not taking a piecee
-#		pass
-#	else: #taking a piece!!!
-#		pass
-#		#test whether we can take more pieces
-#		for each_child in $Board/Highlights.get_children():
-#			$Board/Highlights.remove_child( each_child )
-#			each_child.queue_free()
-#
-#		#more highlights here
-#
-#		if $Board/Highlights.get_child_count() == 0:
-#			pass #finished
-#		else:
-#			#if jumping is not mandatory
-#			pass
+	
+	carrying_piece = null
 
 
 func put_piece_back_down( highlight_pos ):
 	carrying_piece.set_position( highlight_pos )
 	carrying_piece.set_z_index(0)
-	carrying_piece = null
 	for each_highlight in $Board/Highlights.get_children():
 		each_highlight.queue_free()
 	set_all_pieces_pickable(true)#, turn)
