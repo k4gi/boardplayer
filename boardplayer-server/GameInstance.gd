@@ -108,10 +108,7 @@ func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
 		toggle_turn()
 	else:
 		score[ piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] ] -= 1
-		if score[ piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] ] == 0:
-			#game is won
-			output = "game_won"
-		else:
+		if score[ piece_array[taking_piece_pos.x][taking_piece_pos.y]["allegiance"] ] != 0:
 			piece_array[taking_piece_pos.x][taking_piece_pos.y] = null
 			var new_highlights = get_highlights(highlight_pos, true)
 			if new_highlights == []:

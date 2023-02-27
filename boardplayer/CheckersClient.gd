@@ -134,7 +134,7 @@ func _on_move_highlight_move_here(highlight):
 	#maybe it doesn't matter clientside whether i'm taking a piece.
 	#the server needs to verify anyway
 	else:
-		rpc_id(1, "move_piece", carrying_piece.get("grid_position"), $Board.local_to_map(highlight_pos), highlight.get("taking_piece_pos"))
+		rpc_id(1, "move_piece", carrying_piece.get("grid_position"), $Board.local_to_map(highlight_pos), highlight.get("is_taking_piece"))
 
 	for each_child in $Board/Highlights.get_children():
 		$Board/Highlights.remove_child( each_child )
