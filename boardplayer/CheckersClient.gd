@@ -22,8 +22,8 @@ var carrying_piece
 
 
 @rpc("any_peer", "reliable")
-func pickup_piece(piece_pos: Vector2i):
-	pass
+func pickup_piece(_piece_pos: Vector2i):
+	pass #dummy
 
 
 @rpc("reliable")
@@ -87,7 +87,7 @@ func spawn_highlights(piece_pos, highlights, spawn_return=true):
 
 
 @rpc("any_peer", "reliable")
-func move_piece(piece_pos: Vector2i, highlight_pos: Vector2i, taking_piece_pos):
+func move_piece(_piece_pos: Vector2i, _highlight_pos: Vector2i, _taking_piece_pos):
 	pass #dummy
 
 
@@ -141,7 +141,7 @@ func _on_checkers_piece_pickup_piece(piece):
 
 func _on_move_highlight_move_here(highlight):
 	var is_action = highlight.get("is_action")
-	var taking_piece = highlight.get("is_taking_piece")
+	#var taking_piece = highlight.get("is_taking_piece")
 	var highlight_pos = highlight.get_position()
 	
 	if not is_action: #not making a move

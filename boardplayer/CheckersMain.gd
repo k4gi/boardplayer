@@ -4,11 +4,15 @@ extends Node2D
 const CHECKERS_GAME = preload("res://CheckersGame.tscn")
 const CHECKERS_CLIENT = preload("res://CheckersClient.tscn")
 
+const DEFAULT_NETWORK_ADDRESS = "127.0.0.1"
+const DEFAULT_NETWORK_PORT = 54321
+const DEFAULT_INTERNET_ADDRESS = "51.161.152.131"
+const DEFAULT_INTERNET_PORT = 54321
+
 
 var network_address = "localhost"
 var network_port = 54321
-#var internet_address = "51.161.152.131"
-var internet_address = "localhost"
+var internet_address = "51.161.152.131"
 var internet_port = 54321
 
 var opponent_peer_id = null
@@ -123,7 +127,7 @@ func _on_peer_connected(id):
 	rpc("set_opponent_peer_id", multiplayer.get_multiplayer_peer()) #should be 1? cause we're the host?
 
 
-func _on_peer_disconnected(id):
+func _on_peer_disconnected(_id):
 	pass
 
 
@@ -166,5 +170,7 @@ func _on_online_game_pressed():
 	
 	%MainMenu.set_visible(false)
 	%Matching.set_visible(true)
+
+
 
 

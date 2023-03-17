@@ -96,7 +96,7 @@ func _ready():
 			piece_array[x].append( null )
 	
 	#spawn in pieces
-	var board_coords = $Board.get_used_cells(0)
+	#var board_coords = $Board.get_used_cells(0)
 	for first_three in range(0,3):
 		for x in range(8):
 			if $Board.get_cell_atlas_coords(0, Vector2i(x,first_three)) == TILE_RED:

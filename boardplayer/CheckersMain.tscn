@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkhy1km40x481"]
+[gd_scene load_steps=8 format=3 uid="uid://dkhy1km40x481"]
 
 [ext_resource type="Script" path="res://CheckersMain.gd" id="1_farx3"]
 [ext_resource type="Theme" uid="uid://d2vr315te7cd8" path="res://DefaultTheme.tres" id="3_183qv"]
 [ext_resource type="Theme" uid="uid://tvwj3tis3sd3" path="res://BigTextTheme.tres" id="3_cfsq8"]
 [ext_resource type="Script" path="res://Chat.gd" id="4_4to8l"]
+[ext_resource type="Script" path="res://MainMenu.gd" id="4_8ejgy"]
 [ext_resource type="Script" path="res://Matching.gd" id="5_2igk7"]
 [ext_resource type="Script" path="res://OnlineReady.gd" id="6_8trr2"]
 
@@ -25,75 +26,120 @@ mouse_filter = 2
 [node name="MainMenu" type="VBoxContainer" parent="MarginContainer/VBoxUI"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("3_cfsq8")
 theme_override_constants/separation = 10
+script = ExtResource("4_8ejgy")
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="Title" type="Label" parent="MarginContainer/VBoxUI/MainMenu"]
 layout_mode = 2
 text = "Welcome to Checkers!"
 horizontal_alignment = 1
 
-[node name="LocalGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+text = " < Back "
+
+[node name="MainButtons" type="VBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/separation = 10
+
+[node name="OneComputer" type="Button" parent="MarginContainer/VBoxUI/MainMenu/MainButtons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Play on one computer "
+
+[node name="LocalNetwork" type="Button" parent="MarginContainer/VBoxUI/MainMenu/MainButtons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Play on a local network "
+
+[node name="OverInternet" type="Button" parent="MarginContainer/VBoxUI/MainMenu/MainButtons"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = " Play over the internet "
+
+[node name="OneComputerBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+visible = false
+layout_mode = 2
+
+[node name="Line4" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu/OneComputerBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="LocalGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/OneComputerBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Local Game"
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="LocalNetworkBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+visible = false
+layout_mode = 2
+
+[node name="Line" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="HostGameBox" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+[node name="PortLabel" type="Label" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/HostGameBox"]
 layout_mode = 2
 text = "Port:"
 
-[node name="HostPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+[node name="HostPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/HostGameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HostGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer"]
+[node name="HostGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/HostGameBox"]
 layout_mode = 2
 text = "Host Game"
 
-[node name="ColorRect2" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="Line2" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="JoinGameBox" type="HBoxContainer" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+[node name="AddressLabel" type="Label" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox"]
 layout_mode = 2
 text = "IP address:"
 
-[node name="IPAddressEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+[node name="IPAddressEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Label2" type="Label" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+[node name="PortLabel" type="Label" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox"]
 layout_mode = 2
 text = "Port:"
 
-[node name="IPPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+[node name="IPPortEntry" type="LineEdit" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/HBoxContainer2"]
+[node name="JoinGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox"]
 layout_mode = 2
 text = "Join Game"
 
-[node name="ColorRect3" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="OverInternetBox" type="VBoxContainer" parent="MarginContainer/VBoxUI/MainMenu"]
+visible = false
+layout_mode = 2
+
+[node name="Line3" type="ColorRect" parent="MarginContainer/VBoxUI/MainMenu/OverInternetBox"]
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 
-[node name="OnlineGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu"]
+[node name="OnlineGame" type="Button" parent="MarginContainer/VBoxUI/MainMenu/OverInternetBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Online Game"
@@ -286,10 +332,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalGame" to="." method="_on_local_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer/HostGame" to="." method="_on_host_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/HBoxContainer2/JoinGame" to="." method="_on_join_game_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/OnlineGame" to="." method="_on_online_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/BackButton" to="MarginContainer/VBoxUI/MainMenu" method="_on_back_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/MainButtons/OneComputer" to="MarginContainer/VBoxUI/MainMenu" method="_on_one_computer_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/MainButtons/LocalNetwork" to="MarginContainer/VBoxUI/MainMenu" method="_on_local_network_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/MainButtons/OverInternet" to="MarginContainer/VBoxUI/MainMenu" method="_on_over_internet_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/OneComputerBox/LocalGame" to="." method="_on_local_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/HostGameBox/HostGame" to="." method="_on_host_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/LocalNetworkBox/JoinGameBox/JoinGame" to="." method="_on_join_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxUI/MainMenu/OverInternetBox/OnlineGame" to="." method="_on_online_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/WinResult/PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/StartMultiGame" to="." method="_on_start_multi_game_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxUI/Chat/VBox/VBoxControls/ReadyButton" to="MarginContainer/VBoxUI/Chat" method="_on_ready_button_toggled"]

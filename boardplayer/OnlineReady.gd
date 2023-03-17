@@ -6,7 +6,7 @@ extends HBoxContainer
 
 
 @rpc("any_peer", "reliable")
-func ready_button_pressed(button_pressed):
+func ready_button_pressed(_button_pressed):
 	pass #dummy
 
 
